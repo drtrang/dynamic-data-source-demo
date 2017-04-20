@@ -1,0 +1,101 @@
+server:
+  port: 9300
+  display-name: DynamicDataSourceDemo
+
+logging:
+  level:
+    root: info
+    org.mybatis: debug
+    org.springframework: info
+    org.springframework.jdbc: debug
+    com.alibaba.druid: debug
+    com.github.trang: debug
+
+debug: false
+
+spring:
+  config:
+    location: application.yml
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+      - org.springframework.boot.autoconfigure.cache.CacheAutoConfiguration
+  aop:
+    auto: true
+    proxy-target-class: true
+  http:
+    encoding:
+      enabled: true
+      force: true
+      charset: utf-8
+    converters:
+      preferred-json-mapper: gson
+  mvc:
+    servlet:
+      load-on-startup: 1
+    dateFormat: yyyy-MM-dd HH:mm:ss
+  datasource:
+    hikari:
+      connection-init-sql:
+dynamic-data-source:
+  druid:
+    master:
+      name: Master
+      url: jdbc:mysql://10.33.106.239:3306/dynamic_master?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false
+      username: root
+      password: 123456
+      driver-class-name: com.mysql.jdbc.Driver
+      connection-init-sqls:
+      initialSize: 1
+      minIdle: 1
+      maxActive: 10
+      maxWait: 3000
+      validationQuery: SELECT 1
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+    slave:
+      name: Slave
+      url: jdbc:mysql://10.33.106.239:3306/dynamic_slave?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false
+      username: root
+      password: 123456
+      driver-class-name: com.mysql.jdbc.Driver
+      initialSize: 1
+      minIdle: 1
+      maxActive: 10
+      maxWait: 3000
+      validationQuery: SELECT 1
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+  log:
+    ##打印Connection的开关
+    conn: false
+    ##打印Statement的开关
+    stmt: false
+    ##打印ResultSet的开关
+    rs: false
+    ##打印可执行SQL的开关
+    stmt.executableSql: true
+
+mybatis:
+  type-aliases-package: com.github.trang.ddsd.domain
+  mapper-locations: classpath:mappers/*.xml
+  configuration:
+    cache-enabled: false
+    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
+
+mapper:
+  mappers:
+    - com.github.trang.ddsd.util.BaseMapper
+  not-empty: true
+  identity: MYSQL
+
+pagehelper:
+  helper-dialect: mysql
+  offset-as-page-num: true
+  row-bounds-with-count: false
+  page-size-zero: false
+  reasonable: false
+  support-methods-arguments: false
+  auto-runtime-dialect: false
