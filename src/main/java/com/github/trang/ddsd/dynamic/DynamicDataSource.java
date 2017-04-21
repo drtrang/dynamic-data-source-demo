@@ -3,6 +3,8 @@ package com.github.trang.ddsd.dynamic;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 
+import javax.sql.DataSource;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -13,9 +15,12 @@ import java.util.Map;
 @Slf4j
 public class DynamicDataSource extends AbstractRoutingDataSource {
 
-    public DynamicDataSource(Object defaultTargetDataSource, Map<Object, Object> targetDataSources) {
-        super.setDefaultTargetDataSource(defaultTargetDataSource);
-        super.setTargetDataSources(targetDataSources);
+    private DataSource defaultTargetDataSource;
+    private Map<String, DataSource> targetDataSources;
+
+    public DynamicDataSource(DataSource defaultTargetDataSource, Map<String, DataSource> targetDataSources) {
+        this.defaultTargetDataSource = defaultTargetDataSource;
+        this.targetDataSources = targetDataSources;
     }
 
     @Override
@@ -24,5 +29,12 @@ public class DynamicDataSource extends AbstractRoutingDataSource {
         String dataSource = DynamicDataSourceHolder.get();
         log.info("当前数据库: {}", dataSource);
         return dataSource;
+    }
+
+    @Override
+    public void afterPropertiesSet() {
+        super.setDefaultTargetDataSource(defaultTargetDataSource);
+        super.setTargetDataSources(new HashMap<>(targetDataSources));
+        super.afterPropertiesSet();
     }
 }

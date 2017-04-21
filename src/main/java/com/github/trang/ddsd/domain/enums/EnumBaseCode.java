@@ -21,10 +21,10 @@ public enum EnumBaseCode {
     DROP_REASON("drop_reason", "剔除原因"),
     NOT_TARGET_REASON("not_target_reason", "非目标原因");
 
-    private static Map<String, EnumBaseCode> CODE_MAP = new HashMap<>();
+    private static Map<String, EnumBaseCode> MAP = new HashMap<>();
 
     static {
-        Arrays.stream(values()).forEach(type -> CODE_MAP.put(type.getCode(), type));
+        Arrays.stream(values()).forEach(type -> MAP.put(type.getCode(), type));
     }
 
     //basecode值，对应表中code_type字段
@@ -35,6 +35,6 @@ public enum EnumBaseCode {
     private String desc;
 
     public static EnumBaseCode getByCode(String code) {
-        return CODE_MAP.get(code);
+        return MAP.get(code);
     }
 }

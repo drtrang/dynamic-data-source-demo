@@ -6,7 +6,7 @@ logging:
   level:
     root: info
     org.mybatis: debug
-    org.springframework: info
+    org.springframework: warn
     org.springframework.jdbc: debug
     com.alibaba.druid: debug
     com.github.trang: debug
@@ -45,7 +45,6 @@ dynamic-data-source:
       username: root
       password: 123456
       driver-class-name: com.mysql.jdbc.Driver
-      connection-init-sqls:
       initialSize: 1
       minIdle: 1
       maxActive: 10

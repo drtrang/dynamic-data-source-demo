@@ -17,11 +17,11 @@ public final class DynamicDataSourceHolder {
         CONTAINER.set(dataSource);
     }
 
-    public static void master() {
+    public static void routeMaster() {
         set(MASTER_DATA_SOURCE);
     }
 
-    public static void slave() {
+    public static void routeSlave() {
         set(SLAVE_DATA_SOURCE);
     }
 

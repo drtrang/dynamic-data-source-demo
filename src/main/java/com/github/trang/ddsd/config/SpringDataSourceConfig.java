@@ -4,13 +4,13 @@ import com.alibaba.druid.filter.logging.Slf4jLogFilter;
 import com.alibaba.druid.pool.DruidDataSource;
 import com.github.trang.ddsd.dynamic.DynamicDataSource;
 import com.google.common.collect.ImmutableMap;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 
+import javax.sql.DataSource;
 import java.util.Map;
 
 import static com.github.trang.ddsd.dynamic.DynamicDataSourceHolder.MASTER_DATA_SOURCE;
@@ -31,7 +31,6 @@ public class SpringDataSourceConfig {
 
     @Bean(initMethod = "init", destroyMethod = "close")
     @ConfigurationProperties(MASTER_DATA_SOURCE_PREFIX)
-    @SneakyThrows
     public DruidDataSource masterDataSource() {
         log.info("------ 初始化 Druid 主数据源 ------");
         return new DruidDataSource();
@@ -39,7 +38,6 @@ public class SpringDataSourceConfig {
 
     @Bean(initMethod = "init", destroyMethod = "close")
     @ConfigurationProperties(SLAVE_DATA_SOURCE_PREFIX)
-    @SneakyThrows
     public DruidDataSource slaveDataSource() {
         log.info("------ 初始化 Druid 从数据源 ------");
         return new DruidDataSource();
@@ -49,7 +47,7 @@ public class SpringDataSourceConfig {
     @Primary
     public DynamicDataSource dataSource(DruidDataSource masterDataSource, DruidDataSource slaveDataSource) {
         log.info("------ 初始化 Dynamic 数据源 ------");
-        Map<Object, Object> targetDataSources = ImmutableMap.builder()
+        Map<String, DataSource> targetDataSources = ImmutableMap.<String, DataSource>builder()
                 .put(MASTER_DATA_SOURCE, masterDataSource)
                 .put(SLAVE_DATA_SOURCE, slaveDataSource)
                 .build();

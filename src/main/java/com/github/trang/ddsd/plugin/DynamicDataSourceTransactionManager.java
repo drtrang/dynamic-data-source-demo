@@ -29,7 +29,7 @@ public class DynamicDataSourceTransactionManager extends DataSourceTransactionMa
     protected void doBegin(Object transaction, TransactionDefinition definition) {
         //若有@Transaction注解，并且不是只读，设置为主库
         if (!definition.isReadOnly()) {
-            DynamicDataSourceHolder.master();
+            DynamicDataSourceHolder.routeMaster();
         }
         super.doBegin(transaction, definition);
     }

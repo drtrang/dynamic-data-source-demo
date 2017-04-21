@@ -4,12 +4,16 @@ import com.github.trang.copiers.Copiers;
 import com.github.trang.copiers.inter.Copier;
 import com.github.trang.ddsd.domain.enums.EnumBaseCode;
 import com.github.trang.ddsd.domain.model.BaseCode;
+import com.github.trang.ddsd.dynamic.DynamicDataSourceHolder;
 import com.github.trang.ddsd.service.BaseCodeService;
 import com.google.common.base.Preconditions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Arrays;
 import java.util.List;
@@ -26,14 +30,14 @@ import static java.util.stream.Collectors.toList;
 @RequestMapping("/base-code")
 public class BaseCodeController {
 
-    @Autowired
-    private BaseCodeService baseCodeService;
-
-    private static final Copier<EnumBaseCode, BaseCode> copier =
+    private static final Copier<EnumBaseCode, BaseCode> COPIER =
             Copiers.createMapper(EnumBaseCode.class, BaseCode.class)
                     .field("code", "codeType")
                     .field("desc", "codeValue")
                     .register();
+    @Autowired
+    private BaseCodeService baseCodeService;
+    private Copier<EnumBaseCode, BaseCode> copier = COPIER;
 
     @GetMapping("/list")
     public ResponseEntity<List<BaseCode>> list() {
@@ -43,40 +47,42 @@ public class BaseCodeController {
     }
 
     /**
-     * 没有事务，默认走从库
+     * 没有事务，默认走从库，手动指定数据源使用主库
      */
-    @GetMapping("/get/{code}/{officeAddress}")
-    public ResponseEntity<List<BaseCode>> list(@PathVariable String code, @PathVariable Integer
-            officeAddress) {
+    @GetMapping("/get/{master}/{code}/{officeAddress}")
+    public ResponseEntity<List<BaseCode>> list(@PathVariable Boolean master,
+                                               @PathVariable String code,
+                                               @PathVariable Integer officeAddress) {
+        if (master) DynamicDataSourceHolder.routeMaster();
         EnumBaseCode type = EnumBaseCode.getByCode(code);
-        Preconditions.checkNotNull(type, "未找到符合的类型:" + code);
+        Preconditions.checkNotNull(type, "未找到符合的类型: " + code);
         Optional<List<BaseCode>> optional = baseCodeService.getListByCity(type, officeAddress);
         return ResponseEntity.ok(optional.orElseThrow(IllegalArgumentException::new));
     }
 
-    @GetMapping("/get/transaction/{code}/{officeAddress}")
+    /**
+     * 有事务，默认realOnly=false，走主库
+     */
+    @GetMapping("/get/transaction/master/{code}/{officeAddress}")
     @Transactional
-    public ResponseEntity<List<BaseCode>> listTransaction(@PathVariable String code, @PathVariable Integer
-            officeAddress) {
+    public ResponseEntity<List<BaseCode>> listTransactionMaster(@PathVariable String code,
+                                                                @PathVariable Integer officeAddress) {
         EnumBaseCode type = EnumBaseCode.getByCode(code);
         Preconditions.checkNotNull(type, "未找到符合的类型:" + code);
         Optional<List<BaseCode>> optional = baseCodeService.getListByCity(type, officeAddress);
         return ResponseEntity.ok(optional.orElseThrow(IllegalArgumentException::new));
     }
 
-    @PostMapping("/add")
-    public ResponseEntity<Integer> add(BaseCode baseCode) {
-        return ResponseEntity.ok(baseCodeService.insert(baseCode));
-    }
-
-    @PostMapping("/put")
-    public ResponseEntity<Integer> put(BaseCode baseCode) {
-        Preconditions.checkNotNull(baseCode.getId(), "主键不能为空");
-        return ResponseEntity.ok(baseCodeService.update(baseCode));
-    }
-
-    @PostMapping("/delete/{id}")
-    public ResponseEntity<Integer> delete(@PathVariable Long id) {
-        return ResponseEntity.ok(baseCodeService.deleteByPk(id));
+    /**
+     * 有事务，指定realOnly=true，走从库
+     */
+    @GetMapping("/get/transaction/slave/{code}/{officeAddress}")
+    @Transactional(readOnly = true)
+    public ResponseEntity<List<BaseCode>> listTransactionSlave(@PathVariable String code,
+                                                               @PathVariable Integer officeAddress) {
+        EnumBaseCode type = EnumBaseCode.getByCode(code);
+        Preconditions.checkNotNull(type, "未找到符合的类型:" + code);
+        Optional<List<BaseCode>> optional = baseCodeService.getListByCity(type, officeAddress);
+        return ResponseEntity.ok(optional.orElseThrow(IllegalArgumentException::new));
     }
 }
