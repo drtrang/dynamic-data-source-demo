@@ -35,15 +35,15 @@ public class BaseCodeController {
                     .field("code", "codeType")
                     .field("desc", "codeValue")
                     .register();
+    
+    private Copier<EnumBaseCode, BaseCode> copier = COPIER;
+    
     @Autowired
     private BaseCodeService baseCodeService;
-    private Copier<EnumBaseCode, BaseCode> copier = COPIER;
 
     @GetMapping("/list")
     public ResponseEntity<List<BaseCode>> list() {
-        return ResponseEntity.ok(
-                Arrays.stream(EnumBaseCode.values()).map(copier::copy).collect(toList())
-        );
+        return ResponseEntity.ok(Arrays.stream(EnumBaseCode.values()).map(copier::copy).collect(toList()));
     }
 
     /**
