@@ -31,7 +31,7 @@
         <mybatis-generator-extension.version>1.0.0-SNAPSHOT</mybatis-generator-extension.version>
         <pagehelper-spring-boot-starter.version>1.1.0</pagehelper-spring-boot-starter.version>
         <guava.version>21.0</guava.version>
-        <copiers.version>1.1.0-SNAPSHOT</copiers.version>
+        <copiers.version>1.1.0</copiers.version>
     </properties>
 
     <dependencies>
@@ -144,7 +144,7 @@
             <version>${guava.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.github.trang</groupId>
+            <groupId>com.github.drtrang</groupId>
             <artifactId>copiers</artifactId>
             <version>${copiers.version}</version>
         </dependency>

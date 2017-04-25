@@ -8,5 +8,5 @@ public interface BaseMapper<T> extends
         tk.mybatis.mapper.common.BaseMapper<T>,
         MySqlMapper<T>,
         IdsMapper<T>,
-        SelectRowBoundsMapper<T>{
+        SelectRowBoundsMapper<T> {
 }

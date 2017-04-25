@@ -35,9 +35,9 @@ public class BaseCodeController {
                     .field("code", "codeType")
                     .field("desc", "codeValue")
                     .register();
-    
+
     private Copier<EnumBaseCode, BaseCode> copier = COPIER;
-    
+
     @Autowired
     private BaseCodeService baseCodeService;
 
