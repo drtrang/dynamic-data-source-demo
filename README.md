@@ -195,12 +195,12 @@ public class SpringDaoConfig implements TransactionManagementConfigurer {
 
 其中 1、4 的区别仅仅是加不加事务，比较简单，那么待解决的还有 2 和 3。第 2 种因为没有事务，需要我们手动指定数据源，第 3 种则使用 Spring 提供的只读事务[^1]即可实现。
 
-| 序号 | 事务 | 数据源 | 操作 | 实现方式
-| :-- | :-- | :-- | :--
-| 1 | 无 | 从库 | 读 | 默认
-| 2 | 无 | 主库 | 读 | 手动指定 `DynamicDataSourceHolder.routeMaster()`
-| 3 | 有 | 从库 | 读 | `@Transactional(readOnly = true)`
-| 4 | 有 | 主库 | 写 | `@Transactional`
+| 序号 | 事务 | 数据源 | 操作 | 实现方式 |
+| :-- | :-- | :-- | :-- |
+| 1 | 无 | 从库 | 读 | 默认 |
+| 2 | 无 | 主库 | 读 | 手动指定 `DynamicDataSourceHolder.routeMaster()` |
+| 3 | 有 | 从库 | 读 | `@Transactional(readOnly = true)` |
+| 4 | 有 | 主库 | 写 | `@Transactional` |
 
 如此一来，之前的问题都已经解决。我们仅仅通过 Spring 自带的 `@Transactional` 注解即可指定数据源，对比之前简化不少。
 
