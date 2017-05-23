@@ -217,6 +217,7 @@ public class SpringDaoConfig implements TransactionManagementConfigurer {
 BeanCopier 工具：https://github.com/drtrang/Copiers<br>
 微信：dong349096849
 
+---
 
 [^1]: 只读事务：http://www.blogjava.net/terry-zj/archive/2005/12/06/22792.html
 
