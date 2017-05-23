@@ -2,6 +2,7 @@
 
 
 ##背景
+
 数据库读写分离是构建高性能 Web 架构不可缺少的一环，其主要提升在于：
 
 > 1. 主从职责单一，主写从读，可以极大程度地缓解 X 锁和 S 锁的竞争，并且可以进行针对性调优
@@ -11,21 +12,25 @@
 
 
 ##实现方式
+
 读写分离首先需要 DB 实例的支持，配置主库、从库以及主从同步策略，此步骤一般交给 OP 即可。实例搭建完毕后，我们就可以开发相应模块，以实现真正的读写分离。
 
 业界的实现方式一般分为两种：**DB 中间件** 和 **应用层读写分离**，二者均有各自的优缺点，详情见下表：
 
 ###DB 中间件
+
 > 优点：对于应用透明；不限语言
 > 缺点：专人部署 + 维护；保证 HA、LB；一般只支持 MySQL
 
 ###应用层读写分离
+
 > 优点：开发简单，团队内部可以自行消化；基于 JDBC 驱动或框架，理论支持任意类型的 DB
 > 缺点：通用性差，各应用需要自己实现；手动指定数据源
 
 用不用 DB 中间件需要考虑实际情况，如数据体量和有没有人维护等等，本文讲的是应用层读写分离。
 
 ##当前方案
+
 通过自定义注解 `@DataSourceRoute`，手动声明当前方法操作的数据源，再通过切面拦截该切入点，路由到目标数据源。
 
 因为实际中还要与事务结合，所以又写了一套基于事务路由主从数据源的切面，使用起来较为繁琐。
@@ -55,6 +60,7 @@ public Housedel findByPK(Long housedelCode) {
 
 
 ##改进方案
+
 其实总结一下我们使用读写分离的场景会发现，主库一般负责写入（偶尔用来读），从库则全部用来读取。而为了保障数据的正确性，我们在写入操作时一般会加上事务（这也是我推荐的最佳实践），也就是说，大部分事务操作是在写入，大部分非事务操作则是在读取，由此可见读写分离和事务之间是有一定关联的。
 
 既然思路是可行的，那我们不妨思考一下，实际使用中具体有哪些场景呢？
@@ -76,6 +82,7 @@ public Housedel findByPK(Long housedelCode) {
 
 
 ##落地
+
 那么如何实现呢？阅读 Spring 的源码会发现，`DataSourceTransactionManager`[^3] 是 Spring 用来管理事务的类，我们只需要自定义一个事务管理器，在开启事务之前指定数据源即可。
 
 有了之前的分析，我们可以得到以下规则：默认无事务时路由到从库，**有事务且非只读**时路由到主库。
@@ -199,6 +206,7 @@ public Housedel findByPK(Long housedelCode) {
 
 
 ##硬广
+
 由于篇幅原因，文章中没有展示具体的执行结果。完整代码已打包成 `dynamic-data-source-demo`项目，并上传到 [Github](https://github.com/drtrang/dynamic-data-source-demo)，项目中提供完整的单元测试，详情大家可以 Clone 到本地自己执行一遍。
 
 `dynamic-data-source-demo` 项目基于 Spring Boot，集成了 MyBatis、通用 Mapper、PageHelper、Druid、Copiers，可以作为简单的脚手架使用，欢迎大家 Star 或者 Fork 到自己的仓库。
@@ -209,7 +217,6 @@ public Housedel findByPK(Long housedelCode) {
 BeanCopier 工具：https://github.com/drtrang/Copiers<br>
 微信：dong349096849
 
----
 
 [^1]: 只读事务：http://www.blogjava.net/terry-zj/archive/2005/12/06/22792.html
 
