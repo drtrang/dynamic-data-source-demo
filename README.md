@@ -83,7 +83,7 @@ public Housedel findByPK(Long housedelCode) {
 
 ## 落地
 
-那么如何实现呢？阅读 Spring 的源码会发现，`DataSourceTransactionManager`[^3] 是 Spring 用来管理事务的类，我们只需要自定义一个事务管理器，在开启事务之前指定数据源即可。
+那么如何实现呢？阅读 Spring 的源码会发现，`DataSourceTransactionManager` 是 Spring 用来管理事务的类，我们只需要自定义一个事务管理器，在开启事务之前指定数据源即可。
 
 有了之前的分析，我们可以得到以下规则：默认无事务时路由到从库，**有事务且非只读**时路由到主库。
 
@@ -193,14 +193,14 @@ public class SpringDaoConfig implements TransactionManagementConfigurer {
 
 代码贴完了，让我们来看看能不能满足之前的 4 种场景呢？
 
-其中 1、4 的区别仅仅是加不加事务，比较简单，那么待解决的还有 2 和 3。第 2 种因为没有事务，需要我们手动指定数据源，第 3 种则使用 Spring 提供的只读事务[^1]即可实现。
+其中 1、4 的区别仅仅是加不加事务，比较简单，那么待解决的还有 2 和 3。第 2 种因为没有事务，需要我们手动指定数据源，第 3 种则使用 Spring 提供的只读事务即可实现。
 
-| 序号 | 事务 | 数据源 | 操作 | 实现方式 |
-| :-- | :-- | :-- | :-- |
-| 1 | 无 | 从库 | 读 | 默认 |
-| 2 | 无 | 主库 | 读 | 手动指定 `DynamicDataSourceHolder.routeMaster()` |
-| 3 | 有 | 从库 | 读 | `@Transactional(readOnly = true)` |
-| 4 | 有 | 主库 | 写 | `@Transactional` |
+| 序号 | 事务 | 数据源 | 操作 | 实现方式
+| :-- | :-- | :-- | :-- | :-- |
+| 1 | 无 | 从库 | 读 | 默认
+| 2 | 无 | 主库 | 读 | 手动指定 `DynamicDataSourceHolder.routeMaster()`
+| 3 | 有 | 从库 | 读 | `@Transactional(readOnly = true)`
+| 4 | 有 | 主库 | 写 | `@Transactional`
 
 如此一来，之前的问题都已经解决。我们仅仅通过 Spring 自带的 `@Transactional` 注解即可指定数据源，对比之前简化不少。
 
