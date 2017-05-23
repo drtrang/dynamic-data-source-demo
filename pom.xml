@@ -9,12 +9,33 @@
     <packaging>jar</packaging>
 
     <name>dynamic-data-source-demo</name>
-    <description>DynamicDataSource</description>
+    <description>Dynamic Data Source Demo</description>
+
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>https://github.com/drtrang/dynamic-data-source-demo/blob/master/LICENSE</url>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <name>trang</name>
+            <email>donghao.l@hotmail.com</email>
+        </developer>
+    </developers>
+
+    <scm>
+        <url>https://github.com/drtrang/dynamic-data-source-demo.git</url>
+        <connection>scm:git:https://github.com/drtrang/dynamic-data-source-demo.git</connection>
+        <developerConnection>scm:git:https://github.com/drtrang</developerConnection>
+        <tag>HEAD</tag>
+    </scm>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.5.2.RELEASE</version>
+        <version>1.5.3.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
@@ -23,13 +44,13 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
 
-        <druid.version>1.0.29</druid.version>
+        <druid.version>1.0.31</druid.version>
         <mybatis-spring-boot-starter.version>1.3.0</mybatis-spring-boot-starter.version>
         <mapper-spring-boot-starter.version>1.1.1</mapper-spring-boot-starter.version>
         <mapper.version>3.4.0</mapper.version>
         <mybatis-generator-core.version>1.3.5</mybatis-generator-core.version>
         <mybatis-generator-extension.version>1.0.0-SNAPSHOT</mybatis-generator-extension.version>
-        <pagehelper-spring-boot-starter.version>1.1.0</pagehelper-spring-boot-starter.version>
+        <pagehelper-spring-boot-starter.version>1.1.1</pagehelper-spring-boot-starter.version>
         <guava.version>21.0</guava.version>
         <copiers.version>1.1.0</copiers.version>
     </properties>
