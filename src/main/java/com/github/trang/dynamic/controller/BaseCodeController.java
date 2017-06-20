@@ -20,7 +20,6 @@ import com.github.trang.dynamic.domain.enums.EnumBaseCode;
 import com.github.trang.dynamic.domain.model.BaseCode;
 import com.github.trang.dynamic.dynamic.DynamicDataSourceHolder;
 import com.github.trang.dynamic.service.BaseCodeService;
-import com.google.common.base.Preconditions;
 
 /**
  * BaseCode 控制器
@@ -48,42 +47,50 @@ public class BaseCodeController {
     }
 
     /**
-     * 没有事务，默认走从库，手动指定数据源使用主库
+     * 没有事务，默认走从库
      */
-    @GetMapping("/get/{master}/{code}/{officeAddress}")
-    public ResponseEntity<List<BaseCode>> list(@PathVariable Boolean master,
-                                               @PathVariable String code,
-                                               @PathVariable Integer officeAddress) {
-        if (master) DynamicDataSourceHolder.routeMaster();
+    @GetMapping("/get/master/{code}/{officeAddress}")
+    public ResponseEntity<List<BaseCode>> listMaster(@PathVariable String code,
+                                                     @PathVariable Integer officeAddress) {
+        DynamicDataSourceHolder.routeMaster();
         EnumBaseCode type = EnumBaseCode.getByCode(code);
-        Preconditions.checkNotNull(type, "未找到符合的类型: " + code);
         Optional<List<BaseCode>> optional = baseCodeService.getListByCity(type, officeAddress);
         return ResponseEntity.ok(optional.orElseThrow(IllegalArgumentException::new));
     }
 
     /**
-     * 有事务，默认realOnly=false，走主库
+     * 没有事务，手动指定数据源使用主库
+     */
+    @GetMapping("/get/slave/{code}/{officeAddress}")
+    public ResponseEntity<List<BaseCode>> listSlave(@PathVariable String code,
+                                                    @PathVariable Integer officeAddress) {
+        EnumBaseCode type = EnumBaseCode.getByCode(code);
+        Optional<List<BaseCode>> optional = baseCodeService.getListByCity(type, officeAddress);
+        return ResponseEntity.ok(optional.orElseThrow(IllegalArgumentException::new));
+    }
+
+    /**
+     * 有事务，默认 realOnly=false，走主库
      */
     @GetMapping("/get/transaction/master/{code}/{officeAddress}")
     @Transactional
     public ResponseEntity<List<BaseCode>> listTransactionMaster(@PathVariable String code,
                                                                 @PathVariable Integer officeAddress) {
         EnumBaseCode type = EnumBaseCode.getByCode(code);
-        Preconditions.checkNotNull(type, "未找到符合的类型:" + code);
         Optional<List<BaseCode>> optional = baseCodeService.getListByCity(type, officeAddress);
         return ResponseEntity.ok(optional.orElseThrow(IllegalArgumentException::new));
     }
 
     /**
-     * 有事务，指定realOnly=true，走从库
+     * 有事务，指定 realOnly=true，走从库
      */
     @GetMapping("/get/transaction/slave/{code}/{officeAddress}")
     @Transactional(readOnly = true)
     public ResponseEntity<List<BaseCode>> listTransactionSlave(@PathVariable String code,
                                                                @PathVariable Integer officeAddress) {
         EnumBaseCode type = EnumBaseCode.getByCode(code);
-        Preconditions.checkNotNull(type, "未找到符合的类型:" + code);
         Optional<List<BaseCode>> optional = baseCodeService.getListByCity(type, officeAddress);
         return ResponseEntity.ok(optional.orElseThrow(IllegalArgumentException::new));
     }
+
 }
