@@ -1,20 +1,23 @@
-package com.github.trang.ddsd.config;
+package com.github.trang.dynamic.config;
 
-import com.alibaba.druid.filter.logging.Slf4jLogFilter;
-import com.alibaba.druid.pool.DruidDataSource;
-import com.github.trang.ddsd.dynamic.DynamicDataSource;
-import com.google.common.collect.ImmutableMap;
-import lombok.extern.slf4j.Slf4j;
+import static com.github.trang.dynamic.dynamic.DynamicDataSourceHolder.MASTER_DATA_SOURCE;
+import static com.github.trang.dynamic.dynamic.DynamicDataSourceHolder.SLAVE_DATA_SOURCE;
+
+import java.util.Map;
+
+import javax.sql.DataSource;
+
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 
-import javax.sql.DataSource;
-import java.util.Map;
+import com.alibaba.druid.filter.logging.Slf4jLogFilter;
+import com.alibaba.druid.pool.DruidDataSource;
+import com.github.trang.dynamic.dynamic.DynamicDataSource;
+import com.google.common.collect.ImmutableMap;
 
-import static com.github.trang.ddsd.dynamic.DynamicDataSourceHolder.MASTER_DATA_SOURCE;
-import static com.github.trang.ddsd.dynamic.DynamicDataSourceHolder.SLAVE_DATA_SOURCE;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 数据源配置

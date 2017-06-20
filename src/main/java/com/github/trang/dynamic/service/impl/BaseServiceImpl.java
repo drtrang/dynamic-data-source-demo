@@ -1,23 +1,24 @@
-package com.github.trang.ddsd.service.impl;
+package com.github.trang.dynamic.service.impl;
 
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
-import com.github.trang.ddsd.service.BaseService;
-import com.github.trang.ddsd.util.BaseMapper;
-import com.google.common.base.Joiner;
+import java.io.Serializable;
+import java.util.List;
+
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.Serializable;
-import java.util.List;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.github.trang.dynamic.service.BaseService;
+import com.github.trang.dynamic.util.BaseMapper;
+import com.google.common.base.Joiner;
 
 /**
  * BaseService实现类
  *
  * @author trang
  */
-public class BaseServiceImpl<T, PK extends Serializable> implements BaseService<T, PK> {
+public abstract class BaseServiceImpl<T, PK extends Serializable> implements BaseService<T, PK> {
 
     @Autowired
     private BaseMapper<T> mapper;
@@ -135,4 +136,5 @@ public class BaseServiceImpl<T, PK extends Serializable> implements BaseService<
         List<T> selectList = mapper.select(record);
         return new PageInfo<>(selectList);
     }
+
 }

@@ -11,8 +11,8 @@
 <generatorConfiguration>
     <!--
         可以用于加载配置项或者配置文件，在整个配置文件中就可以使用${propertyKey}的方式来引用配置项
-        resource：配置资源加载地址，使用resource，MBG从classpath开始找，比如com/myproject/generatorConfig.properties
-        url：配置资源加载地质，使用URL的方式，比如file:///C:/myfolder/generatorConfig.properties.
+        resource：配置资源加载地址，使用resource，MBG从classpath开始找，比如com/folder/generatorConfig.properties
+        url：配置资源加载地质，使用URL的方式，比如file:///C:/folder/generatorConfig.properties.
         注意，两个属性只能选址一个;
 
         另外，如果使用了mybatis-generator-maven-plugin，那么在pom.xml中定义的properties都可以直接在generatorConfig.xml
@@ -61,21 +61,22 @@
         <property name="beginningDelimiter" value="`"/>
         <property name="endingDelimiter" value="`"/>
 
-        <!-- 用于扩展或修改通过MBG代码生成器生成的代码，插件将按在配置中配置的顺序执行。 -->
-        <plugin type="com.github.trang.mybaits.generator.extension.MapperPlugin">
+        <!-- 用于扩展或修改通过 MBG 代码生成器生成的代码，插件将按在配置中配置的顺序执行。 -->
+        <plugin type="com.github.trang.mbg.extension.MapperPlugin">
             <property name="mappers" value="${base.mapper}"/>
+            <property name="lombok" value="${lombok}"/>
         </plugin>
-        <!-- 生成 Model 的序列化属性 -->
+        <!-- 生成 Domain 文件的序列化属性 -->
         <plugin type="org.mybatis.generator.plugins.SerializablePlugin">
             <property name="suppressJavaInterface" value="false"/>
         </plugin>
-        <!-- 生成 Model 的 toString() 方法 -->
-        <plugin type="com.github.trang.mybaits.generator.extension.MapperToStringPlugin"/>
-        <!-- 生成 Mapper 文件的 BaseColumnList -->
-        <plugin type="com.github.trang.mybaits.generator.extension.MapperSqlMapConfigPlugin"/>
+        <!-- 生成 Domain 文件的 toString() 方法 -->
+        <plugin type="com.github.trang.mbg.extension.MapperToStringPlugin"/>
+        <!-- 生成 Mapper.xml 文件的 BaseColumns -->
+        <plugin type="com.github.trang.mbg.extension.MapperSqlMapConfigPlugin"/>
 
         <!-- 读取数据库表的注释，生成 Model 的注释 -->
-        <commentGenerator type="com.github.trang.mybaits.generator.extension.MapperCommentGenerator"/>
+        <commentGenerator type="com.github.trang.mbg.extension.MapperCommentGenerator"/>
 
         <!-- 连接数据库配置 -->
         <jdbcConnection driverClass="${jdbc.driverClass}" connectionURL="${jdbc.url}"

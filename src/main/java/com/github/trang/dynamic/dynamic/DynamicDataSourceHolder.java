@@ -1,4 +1,4 @@
-package com.github.trang.ddsd.dynamic;
+package com.github.trang.dynamic.dynamic;
 
 /**
  * 动态数据源容器

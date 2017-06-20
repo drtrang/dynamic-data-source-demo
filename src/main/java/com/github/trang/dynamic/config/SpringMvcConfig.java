@@ -1,4 +1,4 @@
-package com.github.trang.ddsd.config;
+package com.github.trang.dynamic.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

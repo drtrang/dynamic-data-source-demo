@@ -1,16 +1,17 @@
-package com.github.trang.ddsd.plugin;
+package com.github.trang.dynamic.plugin;
 
-import com.github.trang.ddsd.dynamic.DynamicDataSourceHolder;
+import javax.sql.DataSource;
+
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.TransactionDefinition;
 
-import javax.sql.DataSource;
+import com.github.trang.dynamic.dynamic.DynamicDataSourceHolder;
 
 /**
  * 自定义事务管理器
  * 约定：
- * 默认/非事务/事务且只读走从库
- * 事务且可写走主库
+ *   1. 默认/非事务/事务且只读走从库
+ *   2. 事务且可写走主库
  *
  * @author trang
  */

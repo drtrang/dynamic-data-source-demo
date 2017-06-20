@@ -1,10 +1,10 @@
-package com.github.trang.ddsd.service;
-
-import com.github.trang.ddsd.domain.enums.EnumBaseCode;
-import com.github.trang.ddsd.domain.model.BaseCode;
+package com.github.trang.dynamic.service;
 
 import java.util.List;
 import java.util.Optional;
+
+import com.github.trang.dynamic.domain.enums.EnumBaseCode;
+import com.github.trang.dynamic.domain.model.BaseCode;
 
 /**
  * BaseCodeService

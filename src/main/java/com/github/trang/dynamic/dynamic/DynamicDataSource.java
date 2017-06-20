@@ -1,11 +1,13 @@
-package com.github.trang.ddsd.dynamic;
+package com.github.trang.dynamic.dynamic;
 
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
-
-import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.sql.DataSource;
+
+import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 动态数据源

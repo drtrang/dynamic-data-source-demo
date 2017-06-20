@@ -1,12 +1,12 @@
-package com.github.trang.ddsd.domain.enums;
-
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.ToString;
+package com.github.trang.dynamic.domain.enums;
 
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.ToString;
 
 /**
  * 基础数据表，命名为表名_字段名，code为字段名

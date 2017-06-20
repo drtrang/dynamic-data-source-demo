@@ -1,9 +1,9 @@
-package com.github.trang.ddsd.service;
-
-import com.github.pagehelper.PageInfo;
+package com.github.trang.dynamic.service;
 
 import java.io.Serializable;
 import java.util.List;
+
+import com.github.pagehelper.PageInfo;
 
 /**
  * 基础Service类

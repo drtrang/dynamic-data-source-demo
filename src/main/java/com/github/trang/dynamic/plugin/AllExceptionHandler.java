@@ -1,14 +1,17 @@
-package com.github.trang.ddsd.plugin;
+package com.github.trang.dynamic.plugin;
 
-import com.google.common.collect.Maps;
-import com.google.gson.Gson;
-import lombok.extern.slf4j.Slf4j;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.Map;
+import com.google.common.collect.Maps;
+import com.google.gson.Gson;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 全局异常处理

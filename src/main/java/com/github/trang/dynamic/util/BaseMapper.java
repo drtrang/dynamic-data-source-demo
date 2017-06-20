@@ -1,4 +1,4 @@
-package com.github.trang.ddsd.util;
+package com.github.trang.dynamic.util;
 
 import tk.mybatis.mapper.common.IdsMapper;
 import tk.mybatis.mapper.common.MySqlMapper;

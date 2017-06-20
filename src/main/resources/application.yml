@@ -14,8 +14,6 @@ logging:
 debug: false
 
 spring:
-  config:
-    location: application.yml
   autoconfigure:
     exclude:
       - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
@@ -34,9 +32,7 @@ spring:
     servlet:
       load-on-startup: 1
     dateFormat: yyyy-MM-dd HH:mm:ss
-  datasource:
-    hikari:
-      connection-init-sql:
+
 dynamic-data-source:
   druid:
     master:
@@ -78,7 +74,7 @@ dynamic-data-source:
     stmt.executableSql: true
 
 mybatis:
-  type-aliases-package: com.github.trang.ddsd.domain
+  type-aliases-package: com.github.trang.dynamic.domain
   mapper-locations: classpath:mappers/*.xml
   configuration:
     cache-enabled: false
@@ -86,7 +82,7 @@ mybatis:
 
 mapper:
   mappers:
-    - com.github.trang.ddsd.util.BaseMapper
+    - com.github.trang.dynamic.util.BaseMapper
   not-empty: true
   identity: MYSQL
 
