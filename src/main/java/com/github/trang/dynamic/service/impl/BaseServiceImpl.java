@@ -14,7 +14,7 @@ import com.github.trang.dynamic.util.BaseMapper;
 import com.google.common.base.Joiner;
 
 /**
- * BaseService实现类
+ * BaseService 实现类
  *
  * @author trang
  */
@@ -24,7 +24,7 @@ public abstract class BaseServiceImpl<T, PK extends Serializable> implements Bas
     private BaseMapper<T> mapper;
 
     /**
-     * 选择性保存，若属性为null则不会保存，使用数据库默认值
+     * 选择性保存，若属性为 null 则不会保存，使用数据库默认值
      */
     @Override
     @Transactional
@@ -33,7 +33,7 @@ public abstract class BaseServiceImpl<T, PK extends Serializable> implements Bas
     }
 
     /**
-     * 直接保存，属性为null也会保存
+     * 直接保存，属性为 null 也会保存
      */
     @Override
     @Transactional
@@ -42,7 +42,7 @@ public abstract class BaseServiceImpl<T, PK extends Serializable> implements Bas
     }
 
     /**
-     * 批量保存，要求T必须包含id属性，且id为自增；不检查是否为null
+     * 批量保存，要求 <T> 必须包含 id 属性，且 id 为自增；不检查是否为 null
      */
     @Override
     @Transactional
@@ -79,7 +79,7 @@ public abstract class BaseServiceImpl<T, PK extends Serializable> implements Bas
     }
 
     /**
-     * 根据条件更改数据，若属性为null则不保存
+     * 根据条件更改数据，若属性为 null 则不保存
      */
     @Override
     @Transactional
@@ -89,7 +89,7 @@ public abstract class BaseServiceImpl<T, PK extends Serializable> implements Bas
     }
 
     /**
-     * 根据条件更改数据，若属性为null依然保存
+     * 根据条件更改数据，若属性为 null 依然保存
      */
     @Override
     @Transactional

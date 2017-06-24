@@ -28,7 +28,7 @@ public class DynamicDataSourceTransactionManager extends DataSourceTransactionMa
      */
     @Override
     protected void doBegin(Object transaction, TransactionDefinition definition) {
-        //若有@Transaction注解，并且不是只读，设置为主库
+        //若有 @Transaction 注解，并且不是只读，设置为主库
         if (!definition.isReadOnly()) {
             DynamicDataSourceHolder.routeMaster();
         }
@@ -36,11 +36,12 @@ public class DynamicDataSourceTransactionManager extends DataSourceTransactionMa
     }
 
     /**
-     * 事务完成后清除ThreadLocal
+     * 事务完成后清除 ThreadLocal
      */
     @Override
     protected void doCleanupAfterCompletion(Object transaction) {
         DynamicDataSourceHolder.clear();
         super.doCleanupAfterCompletion(transaction);
     }
+
 }

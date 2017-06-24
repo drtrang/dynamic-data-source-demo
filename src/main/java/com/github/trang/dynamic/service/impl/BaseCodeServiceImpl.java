@@ -26,9 +26,9 @@ public class BaseCodeServiceImpl extends BaseServiceImpl<BaseCode, Long> impleme
         if (CollectionUtils.isEmpty(all)) {
             return Optional.empty();
         }
-        //将查询结果按照office-address分组，office-address不能为null，默认值为0
+        //将查询结果按照 office-address 分组，office-address 不能为 null，默认值为 0
         Map<Integer, List<BaseCode>> map = all.stream().collect(groupingBy(BaseCode::getOfficeAddress));
-        //查找当前office-address的value，若没有，则返回默认值，0为默认值，若没有默认值则返回Optional.empty()
+        //查找当前 office-address 的 value，若没有，则返回默认值，0 为默认值，若没有默认值则返回 Optional.empty()
         return map.containsKey(officeAddress) ? Optional.of(map.get(officeAddress)) : Optional.ofNullable(map.get(0));
     }
 
@@ -46,11 +46,11 @@ public class BaseCodeServiceImpl extends BaseServiceImpl<BaseCode, Long> impleme
         BaseCode selectParam = new BaseCode();
         selectParam.setCodeType(type.getCode());
         List<BaseCode> all = mapper.select(selectParam);
-        //将查询结果按照parent-code分组
+        //将查询结果按照 parent-code 分组
         Map<String, List<BaseCode>> map = all.stream().collect(groupingBy(BaseCode::getParentCode));
-        //获取一级base-code
+        //获取一级 base-code
         List<BaseCode> parents = map.get("0");
-        //遍历一级base-code并将其对应的二级base-code设置进去
+        //遍历一级 base-code 并将其对应的二级 base-code 设置进去
         parents.forEach(parent -> parent.setSubList(map.get(parent.getCode())));
         return checkList(parents, officeAddress);
     }
@@ -63,4 +63,5 @@ public class BaseCodeServiceImpl extends BaseServiceImpl<BaseCode, Long> impleme
         Optional<List<BaseCode>> optional = checkList(all, officeAddress);
         return optional.map(list -> list.get(0));
     }
+
 }

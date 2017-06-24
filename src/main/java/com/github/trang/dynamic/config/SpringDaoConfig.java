@@ -13,6 +13,11 @@ import com.github.trang.dynamic.plugin.DynamicDataSourceTransactionManager;
 
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * Spring Dao 层配置
+ *
+ * @author trang
+ */
 @Configuration
 @MapperScan("com.github.trang.dynamic.mapper")
 @EnableTransactionManagement(proxyTargetClass = true)
@@ -28,4 +33,5 @@ public class SpringDaoConfig implements TransactionManagementConfigurer {
         log.info("------ 初始化 DynamicDataSourceTransactionManager ------");
         return new DynamicDataSourceTransactionManager(dataSource);
     }
+
 }

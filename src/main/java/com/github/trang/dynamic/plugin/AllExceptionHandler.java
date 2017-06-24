@@ -4,6 +4,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -22,6 +23,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class AllExceptionHandler {
 
+    @Autowired
+    private Gson gson;
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<?> handleException(HttpServletRequest request, Exception e) {
         printStackTrace(request, e);
@@ -33,6 +37,7 @@ public class AllExceptionHandler {
         Map<String, Object> map = Maps.transformValues(
                 params, arr -> (arr != null ? arr.length : 0) == 0 ? null : arr.length == 1 ? arr[0] : arr
         );
-        log.error("handle:{}, params:{}", e.getClass().getName(), new Gson().toJson(map), e);
+        log.error("handle:{}, params:{}", e.getClass().getName(), gson.toJson(map), e);
     }
+
 }

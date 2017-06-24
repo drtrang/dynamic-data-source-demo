@@ -27,7 +27,7 @@ public class DynamicDataSource extends AbstractRoutingDataSource {
 
     @Override
     protected Object determineCurrentLookupKey() {
-        //使用DynamicDataSourceHolder保证线程安全
+        // 使用 DynamicDataSourceHolder 保证线程安全
         String dataSource = DynamicDataSourceHolder.get();
         log.info("当前数据库: {}", dataSource);
         return dataSource;
@@ -39,4 +39,5 @@ public class DynamicDataSource extends AbstractRoutingDataSource {
         super.setTargetDataSources(new HashMap<>(targetDataSources));
         super.afterPropertiesSet();
     }
+
 }

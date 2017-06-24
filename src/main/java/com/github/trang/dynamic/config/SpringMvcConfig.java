@@ -9,7 +9,7 @@ import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 /**
- * Spring MVC配置
+ * Spring MVC 配置
  *
  * @author trang
  */
@@ -29,14 +29,17 @@ public class SpringMvcConfig extends WebMvcConfigurerAdapter {
     }
 
     /**
-     * 将对于静态资源的请求转发到Servlet容器的默认处理静态资源的Servlet
-     * 因为将Spring的拦截模式设置为"/"时会对静态资源进行拦截
+     * 将对于静态资源的请求转发到 Servlet 容器的默认处理静态资源的 Servlet
+     * 因为将 Spring 的拦截模式设置为 "/" 时会对静态资源进行拦截
      */
     @Override
     public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
         configurer.enable();
     }
 
+    /**
+     * 将无需后端处理的 url 重定向
+     */
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addRedirectViewController("/", "/base-code/list");

@@ -27,31 +27,33 @@ public class DynamicDataSourceDemoApplicationTests {
 
     @Autowired
     private BaseCodeService baseCodeService;
+    @Autowired
+    private Gson gson;
 
     @Test
     public void nonTransactionMaster() {
         DynamicDataSourceHolder.routeMaster();
         Optional<List<BaseCode>> optional = baseCodeService.getListByCity(DROP_REASON, 0);
-        optional.orElse(Collections.emptyList()).stream().map(new Gson()::toJson).forEach(log::info);
+        optional.orElse(Collections.emptyList()).stream().map(gson::toJson).forEach(log::info);
     }
 
     @Test
     public void nonTransactionSlave() {
         Optional<List<BaseCode>> optional = baseCodeService.getListByCity(DROP_REASON, 0);
-        optional.orElse(Collections.emptyList()).stream().map(new Gson()::toJson).forEach(log::info);
+        optional.orElse(Collections.emptyList()).stream().map(gson::toJson).forEach(log::info);
     }
 
     @Test
     @Transactional
     public void transactionalMaster() {
         Optional<List<BaseCode>> optional = baseCodeService.getListByCity(DROP_REASON, 0);
-        optional.orElse(Collections.emptyList()).stream().map(new Gson()::toJson).forEach(log::info);
+        optional.orElse(Collections.emptyList()).stream().map(gson::toJson).forEach(log::info);
     }
 
     @Test
     @Transactional(readOnly = true)
     public void transactionalSlave() {
         Optional<List<BaseCode>> optional = baseCodeService.getListByCity(DROP_REASON, 0);
-        optional.orElse(Collections.emptyList()).stream().map(new Gson()::toJson).forEach(log::info);
+        optional.orElse(Collections.emptyList()).stream().map(gson::toJson).forEach(log::info);
     }
 }

@@ -19,12 +19,13 @@ public interface BaseCodeService extends BaseService<BaseCode, Long> {
     Optional<List<BaseCode>> getListByCity(EnumBaseCode type, Integer officeAddress);
 
     /**
-     * 分级别的返回list，填充sublist。目前仅支持两级
+     * 分级别的返回 list，填充 sublist
+     * 目前仅支持两级
      */
     Optional<List<BaseCode>> getListClassifyByCity(EnumBaseCode type, Integer officeAddress);
 
     /**
-     * 获取具体的basecode
+     * 获取具体的 basecode
      */
     Optional<BaseCode> getOneByCity(EnumBaseCode type, Integer officeAddress);
 }

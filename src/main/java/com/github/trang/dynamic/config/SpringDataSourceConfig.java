@@ -20,7 +20,7 @@ import com.google.common.collect.ImmutableMap;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * 数据源配置
+ * 动态数据源配置
  *
  * @author trang
  */
@@ -63,4 +63,5 @@ public class SpringDataSourceConfig {
         log.info("------ 初始化 Druid 日志监控 ------");
         return new Slf4jLogFilter();
     }
+
 }
