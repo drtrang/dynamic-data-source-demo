@@ -6,11 +6,7 @@ import com.github.trang.dynamic.service.BaseCodeService;
 import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -28,10 +24,14 @@ public class ReadTests extends SpringBootBaseTest {
     private Gson gson;
 
     @Test
+    @Transactional
     public void nonTransactionMaster() {
-        DynamicDataSourceHolder.routeMaster();
-        Optional<List<BaseCode>> optional = baseCodeService.getListByCity(DROP_REASON, 0);
-        optional.orElse(emptyList()).stream().map(gson::toJson).forEach(log::info);
+        DynamicDataSourceHolder.route1();
+        Optional<List<BaseCode>> optional0 = baseCodeService.getListByCity(DROP_REASON, 0);
+        optional0.orElse(emptyList()).stream().map(new Gson()::toJson).forEach(log::info);
+        DynamicDataSourceHolder.route2();
+        Optional<List<BaseCode>> optional1 = baseCodeService.getListByCity(DROP_REASON, 0);
+        optional1.orElse(emptyList()).stream().map(new Gson()::toJson).forEach(log::info);
     }
 
     @Test

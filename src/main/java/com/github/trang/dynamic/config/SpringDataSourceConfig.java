@@ -1,6 +1,5 @@
 package com.github.trang.dynamic.config;
 
-import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.druid.pool.xa.DruidXADataSource;
 import com.github.trang.dynamic.dynamic.DynamicDataSource;
 import com.google.common.collect.ImmutableMap;
@@ -14,8 +13,7 @@ import org.springframework.context.annotation.Primary;
 import javax.sql.DataSource;
 import java.util.Map;
 
-import static com.github.trang.dynamic.dynamic.DynamicDataSourceHolder.MASTER_DATA_SOURCE;
-import static com.github.trang.dynamic.dynamic.DynamicDataSourceHolder.SLAVE_DATA_SOURCE;
+import static com.github.trang.dynamic.dynamic.DynamicDataSourceHolder.*;
 
 /**
  * 动态数据源配置
@@ -26,16 +24,17 @@ import static com.github.trang.dynamic.dynamic.DynamicDataSourceHolder.SLAVE_DAT
 @Slf4j
 public class SpringDataSourceConfig {
 
-    private static final String MASTER_DATA_SOURCE_PREFIX = "dynamic-data-source.druid.master";
-    private static final String SLAVE_DATA_SOURCE_PREFIX = "dynamic-data-source.druid.slave";
+    private static final String DYNAMIC_DATA_SOURCE_DRUID_1 = "dynamic-data-source.druid.one";
+    private static final String DYNAMIC_DATA_SOURCE_DRUID_2 = "dynamic-data-source.druid.two";
 
     @Bean(initMethod = "init", destroyMethod = "close")
-    @ConfigurationProperties(MASTER_DATA_SOURCE_PREFIX)
+    @ConfigurationProperties(DYNAMIC_DATA_SOURCE_DRUID_1)
     public DruidXADataSource masterDataSource() {
         return new DruidXADataSource();
     }
 
     @Bean(initMethod = "init", destroyMethod = "close")
+    @ConfigurationProperties("spring.jta.atomikos.datasource.one")
     public AtomikosDataSourceBean firstDataSource(DruidXADataSource masterDataSource) {
         log.info("------ 初始化 1 数据源 ------");
         AtomikosDataSourceBean bean = new AtomikosDataSourceBean();
@@ -44,12 +43,13 @@ public class SpringDataSourceConfig {
     }
 
     @Bean(initMethod = "init", destroyMethod = "close")
-    @ConfigurationProperties(SLAVE_DATA_SOURCE_PREFIX)
+    @ConfigurationProperties(DYNAMIC_DATA_SOURCE_DRUID_2)
     public DruidXADataSource slaveDataSource() {
         return new DruidXADataSource();
     }
 
     @Bean(initMethod = "init", destroyMethod = "close")
+    @ConfigurationProperties("spring.jta.atomikos.datasource.two")
     public AtomikosDataSourceBean secondDataSource(DruidXADataSource slaveDataSource) {
         log.info("------ 初始化 2 数据源 ------");
         AtomikosDataSourceBean bean = new AtomikosDataSourceBean();
@@ -63,10 +63,10 @@ public class SpringDataSourceConfig {
                                         AtomikosDataSourceBean secondDataSource) {
         log.info("------ 初始化 Dynamic 数据源 ------");
         Map<String, DataSource> targetDataSources = ImmutableMap.<String, DataSource>builder()
-                .put(MASTER_DATA_SOURCE, firstDataSource)
-                .put(SLAVE_DATA_SOURCE, secondDataSource)
+                .put(DB_1, firstDataSource)
+                .put(DB_2, secondDataSource)
                 .build();
-        return new DynamicDataSource(secondDataSource, targetDataSources);
+        return new DynamicDataSource(targetDataSources);
     }
 
 }

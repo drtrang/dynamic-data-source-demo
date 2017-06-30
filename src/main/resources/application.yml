@@ -14,13 +14,28 @@ logging:
 debug: false
 
 spring:
+  profiles:
+    active: dev
   autoconfigure:
     exclude:
       - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
       - org.springframework.boot.autoconfigure.cache.CacheAutoConfiguration
-  aop:
-    auto: true
-    proxy-target-class: true
+  transaction:
+    rollback-on-commit-failure: true
+    default-timeout: 300
+  jta:
+    enabled: true
+    atomikos:
+      datasource:
+        one:
+          min-pool-size: 3
+          max-pool-size: 3
+        two:
+          min-pool-size: 3
+          max-pool-size: 3
+      properties:
+        console-log-level: info
+        force-shutdown-on-vm-exit: true
   http:
     encoding:
       enabled: true
@@ -32,16 +47,13 @@ spring:
     servlet:
       load-on-startup: 1
     dateFormat: yyyy-MM-dd HH:mm:ss
-#  jta:
-#    atomikos:
-#      datasource:
-#        xa-data-source-class-name: com.alibaba.druid.pool.xa.DruidXADataSource
-#        unique-resource-name: 0
-
+  aop:
+    auto: true
+    proxy-target-class: true
 
 dynamic-data-source:
   druid:
-    master:
+    one:
       name: 1
       url: jdbc:mysql://10.33.106.239:3306/dynamic_master?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false
       username: root
@@ -50,7 +62,7 @@ dynamic-data-source:
       initialSize: 1
       minIdle: 1
       maxActive: 10
-    slave:
+    two:
       name: 2
       url: jdbc:mysql://10.33.106.239:3306/dynamic_slave?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false
       username: root

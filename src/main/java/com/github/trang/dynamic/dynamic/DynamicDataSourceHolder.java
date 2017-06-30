@@ -6,23 +6,21 @@ package com.github.trang.dynamic.dynamic;
  * @author trang
  */
 public final class DynamicDataSourceHolder {
-    public static final String MASTER_DATA_SOURCE = "Master";
-    public static final String SLAVE_DATA_SOURCE = "Slave";
+    public static final String DB_1 = "1";
+    public static final String DB_2 = "2";
 
-    private static final ThreadLocal<String> CONTAINER = ThreadLocal.withInitial(
-            () -> DynamicDataSourceHolder.SLAVE_DATA_SOURCE
-    );
+    private static final ThreadLocal<String> CONTAINER = new ThreadLocal<>();
 
     private static void set(String dataSource) {
         CONTAINER.set(dataSource);
     }
 
-    public static void routeMaster() {
-        set(MASTER_DATA_SOURCE);
+    public static void route1() {
+        set(DB_1);
     }
 
-    public static void routeSlave() {
-        set(SLAVE_DATA_SOURCE);
+    public static void route2() {
+        set(DB_2);
     }
 
     public static String get() {

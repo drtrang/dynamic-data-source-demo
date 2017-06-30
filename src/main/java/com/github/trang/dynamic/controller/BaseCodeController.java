@@ -6,6 +6,8 @@ import com.github.trang.dynamic.domain.enums.EnumBaseCode;
 import com.github.trang.dynamic.domain.model.BaseCode;
 import com.github.trang.dynamic.dynamic.DynamicDataSourceHolder;
 import com.github.trang.dynamic.service.BaseCodeService;
+import com.google.gson.Gson;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,6 +29,7 @@ import static java.util.stream.Collectors.toList;
  */
 @RestController
 @RequestMapping("/base-code")
+@Slf4j
 public class BaseCodeController {
 
     private static final Copier<EnumBaseCode, BaseCode> COPIER =
@@ -39,6 +42,8 @@ public class BaseCodeController {
 
     @Autowired
     private BaseCodeService baseCodeService;
+    @Autowired
+    private Gson gson;
 
     @GetMapping("/list")
     public ResponseEntity<List<BaseCode>> list() {
@@ -51,7 +56,7 @@ public class BaseCodeController {
     @GetMapping("/get/master/{code}/{officeAddress}")
     public ResponseEntity<List<BaseCode>> listMaster(@PathVariable String code,
                                                      @PathVariable Integer officeAddress) {
-        DynamicDataSourceHolder.routeMaster();
+        DynamicDataSourceHolder.route1();
         EnumBaseCode type = EnumBaseCode.getByCode(code);
         Optional<List<BaseCode>> optional = baseCodeService.getListByCity(type, officeAddress);
         return ResponseEntity.ok(optional.orElseThrow(IllegalArgumentException::new));

@@ -1,0 +1,4 @@
+logging:
+  level:
+    root: warn
+    com.github.trang: debug
