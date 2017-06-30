@@ -38,7 +38,8 @@
           2，MyBatis3Simple：类似MyBatis3，只是不生成XXXBySample；
       introspectedColumnImpl：指定扩展org.mybatis.generator.api.IntrospectedColumn该类的实现类
   -->
-    <context id="demo" defaultModelType="flat" targetRuntime="tk.mybatis.mapper.generator.TkMyBatis3SimpleImpl">
+    <context id="demo" defaultModelType="flat"
+             targetRuntime="tk.mybatis.mapper.generator.TkMyBatis3SimpleImpl">
         <!--
             自动识别数据库关键字，默认false，如果设置为true，根据SqlReservedWords中定义的关键字列表；
             一般保留默认值，遇到数据库关键字（Java关键字），使用columnOverride覆盖
@@ -61,19 +62,27 @@
         <property name="beginningDelimiter" value="`"/>
         <property name="endingDelimiter" value="`"/>
 
+        <!-- 生成实体类的序列化属性 -->
+        <plugin type="com.github.trang.mybatis.generator.plugins.SerializablePlugin">
+            <property name="suppressJavaInterface" value="false"/>
+        </plugin>
         <!-- 用于扩展或修改通过 MBG 代码生成器生成的代码，插件将按在配置中配置的顺序执行。 -->
         <plugin type="com.github.trang.mybatis.generator.plugins.MapperPlugin">
             <property name="mappers" value="${base.mapper}"/>
             <property name="lombok" value="${lombok}"/>
+            <property name="accessors" value="${lombok.accessors}"/>
         </plugin>
-        <!-- 生成 Domain 文件的序列化属性 -->
-        <plugin type="org.mybatis.generator.plugins.SerializablePlugin">
-            <property name="suppressJavaInterface" value="false"/>
-        </plugin>
-        <!-- 生成 Domain 文件的 toString() 方法 -->
-        <plugin type="com.github.trang.mybatis.generator.plugins.MapperToStringPlugin"/>
+        <!-- 生成实体类的 toString() 方法 -->
+        <plugin type="com.github.trang.mybatis.generator.plugins.GuavaToStringPlugin"/>
         <!-- 生成 Mapper.xml 文件的 BaseColumns -->
         <plugin type="com.github.trang.mybatis.generator.plugins.MapperSqlMapConfigPlugin"/>
+        <!-- 生成 Service 类 -->
+        <!--<plugin type="com.github.trang.mybatis.generator.plugins.ServicePlugin">
+            <property name="baseService" value="${base.service}"/>
+            <property name="baseServiceImpl" value="${base.service.impl}"/>
+            <property name="targetProject" value="${target.project.service}"/>
+            <property name="targetPackage" value="${target.package.service}"/>
+        </plugin>-->
 
         <!-- 读取数据库表的注释，生成 Model 的注释 -->
         <commentGenerator type="com.github.trang.mybatis.generator.plugins.MapperCommentGenerator"/>
@@ -200,4 +209,5 @@
             <generatedKey column="id" sqlStatement="JDBC"/>
         </table>
     </context>
+
 </generatorConfiguration>
