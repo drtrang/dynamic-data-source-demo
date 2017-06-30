@@ -40,19 +40,23 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
+    <prerequisites>
+        <maven>3.0</maven>
+    </prerequisites>
+
     <properties>
         <!-- 工程参数 -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
         <!-- 基础依赖 -->
-        <druid.version>1.0.31</druid.version>
+        <druid.version>1.1.0</druid.version>
         <mybatis-spring-boot-starter.version>1.3.0</mybatis-spring-boot-starter.version>
         <mapper-spring-boot-starter.version>1.1.1</mapper-spring-boot-starter.version>
         <mapper.version>3.4.0</mapper.version>
         <mybatis-generator.version>1.3.5</mybatis-generator.version>
-        <mybatis-generator-extension.version>0.0.0</mybatis-generator-extension.version>
-        <pagehelper-spring-boot-starter.version>1.1.1</pagehelper-spring-boot-starter.version>
+        <mybatis-generator-extension.version>0.0.1</mybatis-generator-extension.version>
+        <pagehelper-spring-boot-starter.version>1.1.2</pagehelper-spring-boot-starter.version>
         <guava.version>22.0</guava.version>
         <copiers.version>1.1.0</copiers.version>
         <!-- Maven 插件 -->
@@ -130,7 +134,11 @@
                 </exclusion>
             </exclusions>
         </dependency>
-        <!-- MyBatis 通用 Mapper -->
+        <dependency>
+            <groupId>com.github.drtrang</groupId>
+            <artifactId>mybatis-generator-extension</artifactId>
+            <version>${mybatis-generator-extension.version}</version>
+        </dependency>
         <dependency>
             <groupId>tk.mybatis</groupId>
             <artifactId>mapper-spring-boot-starter</artifactId>
@@ -142,7 +150,6 @@
                 </exclusion>
             </exclusions>
         </dependency>
-        <!-- MyBatis 分页插件 -->
         <dependency>
             <groupId>com.github.pagehelper</groupId>
             <artifactId>pagehelper-spring-boot-starter</artifactId>
@@ -182,6 +189,12 @@
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <version>${guava.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>j2objc-annotations</artifactId>
+                    <groupId>com.google.j2objc</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>com.github.drtrang</groupId>
