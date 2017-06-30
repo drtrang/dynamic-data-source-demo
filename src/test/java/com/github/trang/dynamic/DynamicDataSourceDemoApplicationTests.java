@@ -42,6 +42,15 @@ public class DynamicDataSourceDemoApplicationTests {
     }
 
     @Test
+    public void multi() {
+        Optional<List<BaseCode>> slave = baseCodeService.getListByCity(DROP_REASON, 0);
+        slave.orElse(emptyList()).stream().map(gson::toJson).forEach(log::info);
+        DynamicDataSourceHolder.routeMaster();
+        Optional<List<BaseCode>> master = baseCodeService.getListByCity(DROP_REASON, 0);
+        master.orElse(emptyList()).stream().map(gson::toJson).forEach(log::info);
+    }
+
+    @Test
     @Transactional
     public void transactionalMaster() {
         Optional<List<BaseCode>> optional = baseCodeService.getListByCity(DROP_REASON, 0);
