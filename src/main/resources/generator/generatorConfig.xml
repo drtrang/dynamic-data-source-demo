@@ -77,12 +77,12 @@
         <!-- 生成 Mapper.xml 文件的 BaseColumns -->
         <plugin type="com.github.trang.mybatis.generator.plugins.MapperSqlMapConfigPlugin"/>
         <!-- 生成 Service 类 -->
-        <!--<plugin type="com.github.trang.mybatis.generator.plugins.ServicePlugin">
+        <plugin type="com.github.trang.mybatis.generator.plugins.ServicePlugin">
             <property name="baseService" value="${base.service}"/>
             <property name="baseServiceImpl" value="${base.service.impl}"/>
             <property name="targetProject" value="${target.project.service}"/>
             <property name="targetPackage" value="${target.package.service}"/>
-        </plugin>-->
+        </plugin>
 
         <!-- 读取数据库表的注释，生成 Model 的注释 -->
         <commentGenerator type="com.github.trang.mybatis.generator.plugins.MapperCommentGenerator"/>
@@ -189,7 +189,7 @@
 
             注意，table里面很多参数都是对javaModelGenerator，context等元素的默认属性的一个复写；
          -->
-        <table tableName="m_base_code" domainObjectName="BaseCode">
+        <table tableName="m_copy" domainObjectName="Copy">
             <!--
                generatedKey用于生成生成主键的方法，
                如果设置了该元素，MBG会在生成的<insert>元素中生成一条正确的<selectKey>元素，该元素可选
