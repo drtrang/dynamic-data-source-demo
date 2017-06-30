@@ -6,6 +6,7 @@ import com.github.trang.dynamic.service.CopyService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author trang
@@ -23,6 +24,7 @@ public class DynamicTest extends SpringBootBaseTest {
     }
 
     @Test
+    @Transactional
     public void test2() {
         baseCodeService.update(new BaseCode().id(1L).parentCode("T"));
         copyService.update(null);
