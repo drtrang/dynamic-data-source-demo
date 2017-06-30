@@ -17,7 +17,7 @@ public class DynamicTest extends SpringBootBaseTest {
         DynamicDataSourceHolder.route1();
         baseCodeService.update(new BaseCode().id(1L).parentCode("T"));
         DynamicDataSourceHolder.route2();
-        baseCodeService.update(null);
+        baseCodeService.update(new BaseCode().id(1L).parentCode("T"));
     }
 
     @Test

@@ -9,7 +9,7 @@ public final class DynamicDataSourceHolder {
     public static final String DB_1 = "1";
     public static final String DB_2 = "2";
 
-    private static final ThreadLocal<String> CONTAINER = new ThreadLocal<>();
+    private static final ThreadLocal<String> CONTAINER = ThreadLocal.withInitial(() -> DB_1);
 
     private static void set(String dataSource) {
         CONTAINER.set(dataSource);

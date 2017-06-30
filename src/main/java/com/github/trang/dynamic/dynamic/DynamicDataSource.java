@@ -15,9 +15,11 @@ import java.util.Map;
 @Slf4j
 public class DynamicDataSource extends AbstractRoutingDataSource {
 
+    private DataSource defaultTargetDataSource;
     private Map<String, DataSource> targetDataSources;
 
-    public DynamicDataSource(Map<String, DataSource> targetDataSources) {
+    public DynamicDataSource(DataSource defaultTargetDataSource, Map<String, DataSource> targetDataSources) {
+        this.defaultTargetDataSource = defaultTargetDataSource;
         this.targetDataSources = targetDataSources;
     }
 
@@ -31,6 +33,7 @@ public class DynamicDataSource extends AbstractRoutingDataSource {
 
     @Override
     public void afterPropertiesSet() {
+        super.setDefaultTargetDataSource(defaultTargetDataSource);
         super.setTargetDataSources(new HashMap<>(targetDataSources));
         super.afterPropertiesSet();
     }

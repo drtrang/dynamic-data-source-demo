@@ -66,7 +66,7 @@ public class SpringDataSourceConfig {
                 .put(DB_1, firstDataSource)
                 .put(DB_2, secondDataSource)
                 .build();
-        return new DynamicDataSource(targetDataSources);
+        return new DynamicDataSource(firstDataSource, targetDataSources);
     }
 
 }
