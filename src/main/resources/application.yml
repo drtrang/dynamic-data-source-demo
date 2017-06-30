@@ -35,7 +35,6 @@ spring:
           max-pool-size: 3
       properties:
         console-log-level: info
-        force-shutdown-on-vm-exit: true
   http:
     encoding:
       enabled: true
