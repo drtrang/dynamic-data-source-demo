@@ -18,7 +18,6 @@ import com.github.trang.copiers.Copiers;
 import com.github.trang.copiers.inter.Copier;
 import com.github.trang.dynamic.domain.enums.EnumBaseCode;
 import com.github.trang.dynamic.domain.model.BaseCode;
-import com.github.trang.dynamic.dynamic.DynamicDataSourceHolder;
 import com.github.trang.dynamic.service.BaseCodeService;
 
 /**
@@ -52,7 +51,6 @@ public class BaseCodeController {
     @GetMapping("/get/master/{code}/{officeAddress}")
     public ResponseEntity<List<BaseCode>> listMaster(@PathVariable String code,
                                                      @PathVariable Integer officeAddress) {
-        DynamicDataSourceHolder.routeMaster();
         EnumBaseCode type = EnumBaseCode.getByCode(code);
         Optional<List<BaseCode>> optional = baseCodeService.getListByCity(type, officeAddress);
         return ResponseEntity.ok(optional.orElseThrow(IllegalArgumentException::new));

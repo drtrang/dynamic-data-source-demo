@@ -16,8 +16,15 @@ debug: false
 spring:
   autoconfigure:
     exclude:
-      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
       - org.springframework.boot.autoconfigure.cache.CacheAutoConfiguration
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.jdbc.ReplicationDriver
+    url: jdbc:mysql:replication://10.33.106.239:3306,172.30.11.240:3306/dynamic?useSSL=false
+    username: root
+    password: 123456
+  transaction:
+    rollback-on-commit-failure: true
   aop:
     auto: true
     proxy-target-class: true

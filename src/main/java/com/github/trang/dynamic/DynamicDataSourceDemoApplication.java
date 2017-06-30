@@ -1,11 +1,13 @@
 package com.github.trang.dynamic;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import lombok.extern.slf4j.Slf4j;
 
 @SpringBootApplication
+@MapperScan("com.github.trang.dynamic.mapper")
 @Slf4j
 public class DynamicDataSourceDemoApplication {
 

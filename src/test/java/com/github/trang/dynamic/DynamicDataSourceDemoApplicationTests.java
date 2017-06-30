@@ -14,7 +14,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.github.trang.dynamic.domain.model.BaseCode;
-import com.github.trang.dynamic.dynamic.DynamicDataSourceHolder;
 import com.github.trang.dynamic.service.BaseCodeService;
 import com.google.gson.Gson;
 
@@ -32,7 +31,6 @@ public class DynamicDataSourceDemoApplicationTests {
 
     @Test
     public void nonTransactionMaster() {
-        DynamicDataSourceHolder.routeMaster();
         Optional<List<BaseCode>> optional = baseCodeService.getListByCity(DROP_REASON, 0);
         optional.orElse(Collections.emptyList()).stream().map(gson::toJson).forEach(log::info);
     }
