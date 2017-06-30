@@ -32,11 +32,17 @@ spring:
     servlet:
       load-on-startup: 1
     dateFormat: yyyy-MM-dd HH:mm:ss
+#  jta:
+#    atomikos:
+#      datasource:
+#        xa-data-source-class-name: com.alibaba.druid.pool.xa.DruidXADataSource
+#        unique-resource-name: 0
+
 
 dynamic-data-source:
   druid:
     master:
-      name: Master
+      name: 1
       url: jdbc:mysql://10.33.106.239:3306/dynamic_master?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false
       username: root
       password: 123456
@@ -45,7 +51,7 @@ dynamic-data-source:
       minIdle: 1
       maxActive: 10
     slave:
-      name: Slave
+      name: 2
       url: jdbc:mysql://10.33.106.239:3306/dynamic_slave?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false
       username: root
       password: 123456
