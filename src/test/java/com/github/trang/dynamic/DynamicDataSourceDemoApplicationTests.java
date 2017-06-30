@@ -1,11 +1,10 @@
 package com.github.trang.dynamic;
 
-import static com.github.trang.dynamic.domain.enums.EnumBaseCode.DROP_REASON;
-import static java.util.Collections.emptyList;
-
-import java.util.List;
-import java.util.Optional;
-
+import com.github.trang.dynamic.domain.model.BaseCode;
+import com.github.trang.dynamic.dynamic.DynamicDataSourceHolder;
+import com.github.trang.dynamic.service.BaseCodeService;
+import com.google.gson.Gson;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,12 +12,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.github.trang.dynamic.domain.model.BaseCode;
-import com.github.trang.dynamic.dynamic.DynamicDataSourceHolder;
-import com.github.trang.dynamic.service.BaseCodeService;
-import com.google.gson.Gson;
+import java.util.List;
+import java.util.Optional;
 
-import lombok.extern.slf4j.Slf4j;
+import static com.github.trang.dynamic.domain.enums.EnumBaseCode.DROP_REASON;
+import static java.util.Collections.emptyList;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest

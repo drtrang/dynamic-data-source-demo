@@ -6,12 +6,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 @NoArgsConstructor
 @Accessors(fluent = true)
@@ -72,6 +70,9 @@ public class BaseCode implements Serializable {
     @Column(name = "update_time")
     private Date updateTime;
 
+    @Transient
+    private List<BaseCode> subList;
+
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this)
@@ -86,6 +87,7 @@ public class BaseCode implements Serializable {
                 .add("remark", remark)
                 .add("createTime", createTime)
                 .add("updateTime", updateTime)
+                .add("subList", subList)
                 .toString();
     }
 

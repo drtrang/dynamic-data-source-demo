@@ -1,9 +1,9 @@
 package com.github.trang.dynamic.service;
 
+import com.github.pagehelper.PageInfo;
+
 import java.io.Serializable;
 import java.util.List;
-
-import com.github.pagehelper.PageInfo;
 
 /**
  * 基础 Service 类

@@ -1,11 +1,10 @@
 package com.github.trang.dynamic.plugin;
 
-import javax.sql.DataSource;
-
+import com.github.trang.dynamic.dynamic.DynamicDataSourceHolder;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.TransactionDefinition;
 
-import com.github.trang.dynamic.dynamic.DynamicDataSourceHolder;
+import javax.sql.DataSource;
 
 /**
  * 自定义事务管理器
