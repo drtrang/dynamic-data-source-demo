@@ -1,8 +1,8 @@
 package com.github.trang.dynamic;
 
 import static com.github.trang.dynamic.domain.enums.EnumBaseCode.DROP_REASON;
+import static java.util.Collections.emptyList;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,26 +34,27 @@ public class DynamicDataSourceDemoApplicationTests {
     public void nonTransactionMaster() {
         DynamicDataSourceHolder.routeMaster();
         Optional<List<BaseCode>> optional = baseCodeService.getListByCity(DROP_REASON, 0);
-        optional.orElse(Collections.emptyList()).stream().map(gson::toJson).forEach(log::info);
+        optional.orElse(emptyList()).stream().map(gson::toJson).forEach(log::info);
     }
 
     @Test
     public void nonTransactionSlave() {
         Optional<List<BaseCode>> optional = baseCodeService.getListByCity(DROP_REASON, 0);
-        optional.orElse(Collections.emptyList()).stream().map(gson::toJson).forEach(log::info);
+        optional.orElse(emptyList()).stream().map(gson::toJson).forEach(log::info);
     }
 
     @Test
     @Transactional
     public void transactionalMaster() {
         Optional<List<BaseCode>> optional = baseCodeService.getListByCity(DROP_REASON, 0);
-        optional.orElse(Collections.emptyList()).stream().map(gson::toJson).forEach(log::info);
+        optional.orElse(emptyList()).stream().map(gson::toJson).forEach(log::info);
     }
 
     @Test
     @Transactional(readOnly = true)
     public void transactionalSlave() {
         Optional<List<BaseCode>> optional = baseCodeService.getListByCity(DROP_REASON, 0);
-        optional.orElse(Collections.emptyList()).stream().map(gson::toJson).forEach(log::info);
+        optional.orElse(emptyList()).stream().map(gson::toJson).forEach(log::info);
     }
+
 }

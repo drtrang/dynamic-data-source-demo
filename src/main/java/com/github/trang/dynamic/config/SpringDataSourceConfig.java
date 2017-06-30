@@ -30,7 +30,6 @@ public class SpringDataSourceConfig {
 
     private static final String MASTER_DATA_SOURCE_PREFIX = "dynamic-data-source.druid.master";
     private static final String SLAVE_DATA_SOURCE_PREFIX = "dynamic-data-source.druid.slave";
-    private static final String DRUID_LOG_FILTER_PROPERTIES_PREFIX = "dynamic-data-source.druid.log";
 
     @Bean(initMethod = "init", destroyMethod = "close")
     @ConfigurationProperties(MASTER_DATA_SOURCE_PREFIX)
@@ -55,13 +54,6 @@ public class SpringDataSourceConfig {
                 .put(SLAVE_DATA_SOURCE, slaveDataSource)
                 .build();
         return new DynamicDataSource(slaveDataSource, targetDataSources);
-    }
-
-    @Bean
-    @ConfigurationProperties(DRUID_LOG_FILTER_PROPERTIES_PREFIX)
-    public Slf4jLogFilter slf4jLogFilter() {
-        log.info("------ 初始化 Druid 日志监控 ------");
-        return new Slf4jLogFilter();
     }
 
 }
