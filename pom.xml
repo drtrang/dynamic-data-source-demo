@@ -58,7 +58,7 @@
         <mybatis-generator-extension.version>0.0.2</mybatis-generator-extension.version>
         <pagehelper-spring-boot-starter.version>1.1.2</pagehelper-spring-boot-starter.version>
         <guava.version>22.0</guava.version>
-        <copiers.version>1.1.0</copiers.version>
+        <copiers.version>1.1.1</copiers.version>
         <!-- Maven 插件 -->
         <maven-dependency-plugin.version>3.0.1</maven-dependency-plugin.version>
         <maven-clean-plugin.version>3.0.0</maven-clean-plugin.version>
