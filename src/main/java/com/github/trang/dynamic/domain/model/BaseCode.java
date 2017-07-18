@@ -1,10 +1,7 @@
 package com.github.trang.dynamic.domain.model;
 
 import com.google.common.base.MoreObjects;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.experimental.Accessors;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -12,7 +9,8 @@ import java.util.Date;
 import java.util.List;
 
 @NoArgsConstructor
-@Accessors(fluent = true)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@Builder
 @Getter
 @Setter
 @Table(name = "m_base_code")
