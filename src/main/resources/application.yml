@@ -15,9 +15,42 @@ debug: false
 
 spring:
   autoconfigure:
-    exclude:
-      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
-      - org.springframework.boot.autoconfigure.cache.CacheAutoConfiguration
+      exclude:
+        - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+  datasource:
+    druid:
+      master:
+        url: jdbc:mysql://10.33.106.239:3306/dynamic_master?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false
+        username: root
+        password: 123456
+        initial-size: 2
+      slave:
+        url: jdbc:mysql://10.33.106.239:3306/dynamic_slave?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false
+        username: root
+        password: 123456
+        initial-size: 4
+      initialSize: 1
+      minIdle: 1
+      maxActive: 10
+      validation-query: SELECT 1
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      use-global-data-source-stat: true
+      slf4j:
+        enabled: true
+        connection-log-enabled: false
+        connection-log-error-enabled: true
+        statement-log-enabled: false
+        statement-log-error-enabled: true
+        statement-sql-pretty-format: true
+        statement-executable-sql-log-enable: true
+        result-set-log-enabled: false
+        result-set-log-error-enabled: true
+      stat-view-servlet:
+        enabled: true
+  transaction:
+    rollback-on-commit-failure: true
   aop:
     auto: true
     proxy-target-class: true
@@ -32,27 +65,6 @@ spring:
     servlet:
       load-on-startup: 1
     dateFormat: yyyy-MM-dd HH:mm:ss
-
-dynamic-data-source:
-  druid:
-    master:
-      name: Master
-      url: jdbc:mysql://10.33.106.239:3306/dynamic_master?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false
-      username: root
-      password: 123456
-      driver-class-name: com.mysql.jdbc.Driver
-      initialSize: 1
-      minIdle: 1
-      maxActive: 10
-    slave:
-      name: Slave
-      url: jdbc:mysql://10.33.106.239:3306/dynamic_slave?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false
-      username: root
-      password: 123456
-      driver-class-name: com.mysql.jdbc.Driver
-      initialSize: 1
-      minIdle: 1
-      maxActive: 10
 
 mybatis:
   type-aliases-package: com.github.trang.dynamic.domain

@@ -1,6 +1,7 @@
 package com.github.trang.dynamic.config;
 
 import com.alibaba.druid.pool.DruidDataSource;
+import com.github.trang.druid.datasource.DruidMultiDataSource;
 import com.github.trang.dynamic.dynamic.DynamicDataSource;
 import com.google.common.collect.ImmutableMap;
 import lombok.extern.slf4j.Slf4j;
@@ -24,21 +25,21 @@ import static com.github.trang.dynamic.dynamic.DynamicDataSourceHolder.SLAVE_DAT
 @Slf4j
 public class SpringDataSourceConfig {
 
-    private static final String MASTER_DATA_SOURCE_PREFIX = "dynamic-data-source.druid.master";
-    private static final String SLAVE_DATA_SOURCE_PREFIX = "dynamic-data-source.druid.slave";
+    private static final String MASTER_DATA_SOURCE_PREFIX = "spring.datasource.druid.master";
+    private static final String SLAVE_DATA_SOURCE_PREFIX = "spring.datasource.druid.slave";
 
     @Bean(initMethod = "init", destroyMethod = "close")
     @ConfigurationProperties(MASTER_DATA_SOURCE_PREFIX)
     public DruidDataSource masterDataSource() {
         log.info("------ 初始化 Druid 主数据源 ------");
-        return new DruidDataSource();
+        return new DruidMultiDataSource();
     }
 
     @Bean(initMethod = "init", destroyMethod = "close")
     @ConfigurationProperties(SLAVE_DATA_SOURCE_PREFIX)
     public DruidDataSource slaveDataSource() {
         log.info("------ 初始化 Druid 从数据源 ------");
-        return new DruidDataSource();
+        return new DruidMultiDataSource();
     }
 
     @Bean
