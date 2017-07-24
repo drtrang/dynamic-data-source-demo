@@ -211,7 +211,7 @@ public class SpringDaoConfig implements TransactionManagementConfigurer {
 
 `dynamic-data-source-demo` 项目基于 Spring Boot，集成了 MyBatis、通用 Mapper、PageHelper、Druid、Copiers，可以作为简单的脚手架使用，欢迎大家 Star 或者 Fork 到自己的仓库。
 
-如果有问题，可以在 Github 上提 Issue，或者微信交流，以下是联系方式：<br>
+如果有问题，可以在 Github 上提 Issue，或者 QQ 交流，以下是联系方式：<br>
 我的 Github 地址：https://github.com/drtrang<br>
 项目 Github 地址：https://github.com/drtrang/dynamic-data-source-demo<br>
 BeanCopier 工具：https://github.com/drtrang/Copiers<br>
