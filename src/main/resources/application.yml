@@ -6,7 +6,7 @@ logging:
   level:
     root: info
     org.mybatis: debug
-    org.springframework: warn
+    org.springframework: info
     org.springframework.jdbc: debug
     com.alibaba.druid: debug
     com.github.trang: debug
@@ -14,15 +14,49 @@ logging:
 debug: false
 
 spring:
+  application:
+    name: dynamic-datasource-demo
+  output:
+    ansi:
+      enabled: detect
   autoconfigure:
     exclude:
       - org.springframework.boot.autoconfigure.cache.CacheAutoConfiguration
   datasource:
-    type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.jdbc.ReplicationDriver
-    url: jdbc:mysql:replication://10.33.106.239:3306,172.30.11.240:3306/dynamic?useSSL=false
+    url: jdbc:mysql:replication://10.33.106.239:3306,10.30.128.219:3306/dynamic?useSSL=false
     username: root
     password: 123456
+    druid:
+      initialSize: 1
+      minIdle: 1
+      maxActive: 10
+      maxWait: 3000
+      validationQuery: SELECT 1
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      stat:
+        log-slow-sql: true
+        slow-sql-millis: 3000
+        merge-sql: true
+      slf4j:
+        enabled: true
+        data-source-log-enabled: true
+        connection-log-enabled: false
+        connection-log-error-enabled: true
+        statement-log-enabled: true
+        statement-log-error-enabled: true
+        statement-sql-format-option:
+          upp-case: true
+          pretty-format: false
+        statement-sql-pretty-format: false
+        statement-parameter-set-log-enabled: false
+        statement-prepare-after-log-enabled: false
+        statement-close-after-log-enabled: false
+        statement-executable-sql-log-enable: true
+        result-set-log-enabled: false
+        result-set-log-error-enabled: true
   transaction:
     rollback-on-commit-failure: true
   aop:
@@ -34,64 +68,30 @@ spring:
       force: true
       charset: utf-8
     converters:
-      preferred-json-mapper: gson
+      preferred-json-mapper: jackson
+  jackson:
+    serialization:
+      indent_output: true
   mvc:
     servlet:
       load-on-startup: 1
-    dateFormat: yyyy-MM-dd HH:mm:ss
-
-dynamic-data-source:
-  druid:
-    master:
-      name: Master
-      url: jdbc:mysql://10.33.106.239:3306/dynamic_master?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false
-      username: root
-      password: 123456
-      driver-class-name: com.mysql.jdbc.Driver
-      initialSize: 1
-      minIdle: 1
-      maxActive: 10
-      maxWait: 3000
-      validationQuery: SELECT 1
-      testWhileIdle: true
-      testOnBorrow: false
-      testOnReturn: false
-    slave:
-      name: Slave
-      url: jdbc:mysql://10.33.106.239:3306/dynamic_slave?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false
-      username: root
-      password: 123456
-      driver-class-name: com.mysql.jdbc.Driver
-      initialSize: 1
-      minIdle: 1
-      maxActive: 10
-      maxWait: 3000
-      validationQuery: SELECT 1
-      testWhileIdle: true
-      testOnBorrow: false
-      testOnReturn: false
-  log:
-    ##打印Connection的开关
-    conn: false
-    ##打印Statement的开关
-    stmt: false
-    ##打印ResultSet的开关
-    rs: false
-    ##打印可执行SQL的开关
-    stmt.executableSql: true
 
 mybatis:
   type-aliases-package: com.github.trang.dynamic.domain
   mapper-locations: classpath:mappers/*.xml
   configuration:
     cache-enabled: false
+    sql-format: true
+    map-underscore-to-camel-case: true
     log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
 
 mapper:
   mappers:
     - com.github.trang.dynamic.util.BaseMapper
-  not-empty: true
   identity: MYSQL
+  not-empty: true
+  use-simple-type: false
+  check-example-entity-class: true
 
 pagehelper:
   helper-dialect: mysql
