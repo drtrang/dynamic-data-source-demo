@@ -28,4 +28,5 @@ public interface BaseCodeService extends BaseService<BaseCode, Long> {
      * 获取具体的 basecode
      */
     Optional<BaseCode> getOneByCity(EnumBaseCode type, Integer officeAddress);
+
 }

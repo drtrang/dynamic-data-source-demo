@@ -6,7 +6,7 @@ logging:
   level:
     root: info
     org.mybatis: debug
-    org.springframework: warn
+    org.springframework: info
     org.springframework.jdbc: debug
     com.alibaba.druid: debug
     com.github.trang: debug
@@ -14,21 +14,25 @@ logging:
 debug: false
 
 spring:
+  application:
+    name: dynamic-datasource-demo
+  output:
+    ansi:
+      enabled: detect
   autoconfigure:
-      exclude:
-        - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+    exclude:
+      - org.springframework.boot.autoconfigure.cache.CacheAutoConfiguration
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
   datasource:
     druid:
       master:
+        name: master
         url: jdbc:mysql://10.33.106.239:3306/dynamic_master?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false
-        username: root
-        password: 123456
-        initial-size: 2
       slave:
+        name: slave
         url: jdbc:mysql://10.33.106.239:3306/dynamic_slave?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false
-        username: root
-        password: 123456
-        initial-size: 4
+      username: root
+      password: 123456
       initialSize: 1
       minIdle: 1
       maxActive: 10
@@ -36,19 +40,27 @@ spring:
       test-while-idle: true
       test-on-borrow: false
       test-on-return: false
-      use-global-data-source-stat: true
+      stat:
+        log-slow-sql: true
+        slow-sql-millis: 3000
+        merge-sql: true
       slf4j:
         enabled: true
+        data-source-log-enabled: true
         connection-log-enabled: false
         connection-log-error-enabled: true
-        statement-log-enabled: false
+        statement-log-enabled: true
         statement-log-error-enabled: true
-        statement-sql-pretty-format: true
+        statement-sql-format-option:
+          upp-case: true
+          pretty-format: false
+        statement-sql-pretty-format: false
+        statement-parameter-set-log-enabled: false
+        statement-prepare-after-log-enabled: false
+        statement-close-after-log-enabled: false
         statement-executable-sql-log-enable: true
         result-set-log-enabled: false
         result-set-log-error-enabled: true
-      stat-view-servlet:
-        enabled: true
   transaction:
     rollback-on-commit-failure: true
   aop:
@@ -60,26 +72,30 @@ spring:
       force: true
       charset: utf-8
     converters:
-      preferred-json-mapper: gson
+      preferred-json-mapper: jackson
+  jackson:
+    serialization:
+      indent_output: true
   mvc:
     servlet:
       load-on-startup: 1
-    dateFormat: yyyy-MM-dd HH:mm:ss
 
 mybatis:
   type-aliases-package: com.github.trang.dynamic.domain
   mapper-locations: classpath:mappers/*.xml
   configuration:
     cache-enabled: false
-    lazy-loading-enabled: true
-    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
+    sql-format: true
     map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
 
 mapper:
   mappers:
     - com.github.trang.dynamic.util.BaseMapper
-  not-empty: true
   identity: MYSQL
+  not-empty: true
+  use-simple-type: false
+  check-example-entity-class: true
 
 pagehelper:
   helper-dialect: mysql

@@ -1,13 +1,19 @@
 package com.github.trang.dynamic.service.impl;
 
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.github.trang.dynamic.base.BaseModel;
 import com.github.trang.dynamic.service.BaseService;
 import com.github.trang.dynamic.util.BaseMapper;
 import com.google.common.base.Joiner;
-import org.apache.ibatis.session.RowBounds;
+import com.google.common.base.Preconditions;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
+import tk.mybatis.mapper.entity.Example;
 
 import java.io.Serializable;
 import java.util.List;
@@ -17,123 +23,197 @@ import java.util.List;
  *
  * @author trang
  */
-public abstract class BaseServiceImpl<T, PK extends Serializable> implements BaseService<T, PK> {
+public abstract class BaseServiceImpl<T extends BaseModel<PK>, PK extends Serializable> implements BaseService<T, PK> {
 
     @Autowired
     private BaseMapper<T> mapper;
 
-    /**
-     * 选择性保存，若属性为 null 则不会保存，使用数据库默认值
-     */
     @Override
     @Transactional
-    public int insert(T entity) {
-        return mapper.insertSelective(entity);
+    public int insert(T record) {
+        Preconditions.checkNotNull(record);
+        return mapper.insert(record);
     }
 
-    /**
-     * 直接保存，属性为 null 也会保存
-     */
     @Override
     @Transactional
-    public int insertUnchecked(T entity) {
-        return mapper.insert(entity);
+    public int insertSelective(T record) {
+        Preconditions.checkNotNull(record);
+        return mapper.insertSelective(record);
     }
 
-    /**
-     * 批量保存，要求 <T> 必须包含 id 属性，且 id 为自增；不检查是否为 null
-     */
     @Override
     @Transactional
-    public int insertBatch(List<T> entityList) {
-        return mapper.insertList(entityList);
+    public int insertList(Iterable<T> records) {
+        Preconditions.checkArgument(records != null && !Iterables.isEmpty(records));
+        return mapper.insertList(Lists.newArrayList(records));
     }
 
-    /**
-     * 根据主键删除单条数据
-     */
     @Override
     @Transactional
-    public int deleteByPk(PK pk) {
-        return mapper.deleteByPrimaryKey(pk);
-    }
-
-    /**
-     * 根据条件删除数据
-     */
-    @Override
-    @Transactional
-    public int delete(T record) {
-        return mapper.delete(record);
-    }
-
-    /**
-     * 根据主键批量删除数据
-     */
-    @Override
-    @Transactional
-    public int deleteByIds(Iterable<? extends PK> ids) {
-        String _ids = Joiner.on(',').skipNulls().join(ids);
-        return mapper.deleteByIds(_ids);
-    }
-
-    /**
-     * 根据条件更改数据，若属性为 null 则不保存
-     */
-    @Override
-    @Transactional
-    //@CacheEvict(key="#root.targetClass.getSimpleName() + '.' + #record.cacheKey")
     public int update(T record) {
+        Preconditions.checkArgument(record != null && record.getPk() != null);
         return mapper.updateByPrimaryKeySelective(record);
     }
 
-    /**
-     * 根据条件更改数据，若属性为 null 依然保存
-     */
+    @Override
+    @Transactional
+    public int updateByExample(T record, Example example) {
+        Preconditions.checkArgument(record != null && record.getPk() != null);
+        return mapper.updateByExampleSelective(record, example);
+    }
+
     @Override
     @Transactional
     public int updateUnchecked(T record) {
+        Preconditions.checkArgument(record != null && record.getPk() != null);
         return mapper.updateByPrimaryKey(record);
     }
 
     @Override
-    public List<T> select(T record) {
-        return mapper.select(record);
+    @Transactional
+    public int updateUncheckedByExample(T record, Example example) {
+        Preconditions.checkArgument(record != null && record.getPk() != null);
+        return mapper.updateByExample(record, example);
+    }
+
+    @Override
+    @Transactional
+    public int deleteByPk(PK pk) {
+        Preconditions.checkNotNull(pk);
+        return mapper.deleteByPrimaryKey(pk);
+    }
+
+    @Override
+    @Transactional
+    public int deleteByPks(Iterable<? extends PK> pks) {
+        Preconditions.checkArgument(pks != null && !Iterables.isEmpty(pks));
+        String pksStr = Joiner.on(',').skipNulls().join(pks);
+        return mapper.deleteByIds(pksStr);
+    }
+
+    @Override
+    @Transactional
+    public int delete(T param) {
+        Preconditions.checkNotNull(param);
+        return mapper.delete(param);
+    }
+
+    @Override
+    @Transactional
+    public int deleteAll() {
+        return mapper.delete(null);
+    }
+
+    @Override
+    @Transactional
+    public int deleteByExample(Example example) {
+        Preconditions.checkNotNull(example);
+        return mapper.deleteByExample(example);
     }
 
     @Override
     public T selectByPk(PK pk) {
+        Preconditions.checkNotNull(pk);
         return mapper.selectByPrimaryKey(pk);
     }
 
     @Override
-    public T selectOne(T record) {
-        PageHelper.offsetPage(0, 1, false);
-        return mapper.selectOne(record);
+    public List<T> selectByPks(Iterable<? extends PK> pks) {
+        Preconditions.checkArgument(pks != null && !Iterables.isEmpty(pks));
+        String pksStr = Joiner.on(',').skipNulls().join(pks);
+        return mapper.selectByIds(pksStr);
     }
 
     @Override
-    public List<T> selectByIds(Iterable<? extends PK> ids) {
-        String _ids = Joiner.on(',').skipNulls().join(ids);
-        return mapper.selectByIds(_ids);
+    public List<T> select(T param) {
+        Preconditions.checkNotNull(param);
+        return mapper.select(param);
     }
 
     @Override
-    public int selectCount(T record) {
-        return mapper.selectCount(record);
+    public List<T> selectAll() {
+        return mapper.select(null);
     }
 
     @Override
-    public PageInfo<T> selectPage(T record, int pageNum, int pageSize) {
-        List<T> selectList = mapper.selectByRowBounds(record, new RowBounds(pageNum, pageSize));
-        return new PageInfo<>(selectList);
+    public List<T> selectByExample(Example example) {
+        Preconditions.checkNotNull(example);
+        return mapper.selectByExample(example);
     }
 
     @Override
-    public PageInfo<T> selectPageAndCount(T record, int pageNum, int pageSize) {
-        PageHelper.startPage(pageNum, pageSize);
-        List<T> selectList = mapper.select(record);
-        return new PageInfo<>(selectList);
+    public T selectOne(T param) {
+        Preconditions.checkNotNull(param);
+        return mapper.selectOne(param);
+    }
+
+//    @Override
+//    public T selectOneByExample(Example example) {
+//        Preconditions.checkNotNull(example);
+//        return mapper.selectOneByExample(example);
+//    }
+
+    @Override
+    public T selectLimitOne(T param) {
+        Preconditions.checkNotNull(param);
+        Page<T> page = PageHelper.offsetPage(0, 1, false).doSelectPage(
+                () -> mapper.select(param)
+        );
+        return CollectionUtils.isNotEmpty(page) ? page.get(0) : null;
+    }
+
+    @Override
+    public T selectLimitOneByExample(Example example) {
+        Preconditions.checkNotNull(example);
+        Page<T> page = PageHelper.offsetPage(0, 1, false).doSelectPage(
+                () -> mapper.selectByExample(example)
+        );
+        return CollectionUtils.isNotEmpty(page) ? page.get(0) : null;
+    }
+
+    @Override
+    public long selectCount(T param) {
+        Preconditions.checkNotNull(param);
+        return mapper.selectCount(param);
+    }
+
+    @Override
+    public long selectCountByExample(Example example) {
+        Preconditions.checkNotNull(example);
+        return mapper.selectCountByExample(example);
+    }
+
+    @Override
+    public List<T> selectPage(T param) {
+        Preconditions.checkArgument(param != null && param.getPage() != null && param.getPageSize() != null);
+        return PageHelper.startPage(param.getPage(), param.getPageSize(), false).doSelectPage(
+                () -> mapper.select(param)
+        );
+    }
+
+    @Override
+    public List<T> selectPageByExample(Example example, int pageNum, int pageSize) {
+        Preconditions.checkNotNull(example);
+        return PageHelper.startPage(pageNum, pageSize, false).doSelectPage(
+                () -> mapper.selectByExample(example)
+        );
+    }
+
+    @Override
+    public PageInfo<T> selectPageAndCount(T param) {
+        Preconditions.checkArgument(param != null && param.getPage() != null && param.getPageSize() != null);
+        return PageHelper.startPage(param.getPage(), param.getPageSize()).doSelectPageInfo(
+                () -> mapper.select(param)
+        );
+    }
+
+    @Override
+    public PageInfo<T> selectPageAndCountByExample(Example example, int pageNum, int pageSize) {
+        Preconditions.checkNotNull(example);
+        return PageHelper.startPage(pageNum, pageSize).doSelectPageInfo(
+                () -> mapper.selectByExample(example)
+        );
     }
 
 }
