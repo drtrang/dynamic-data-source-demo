@@ -71,7 +71,9 @@ mybatis:
   mapper-locations: classpath:mappers/*.xml
   configuration:
     cache-enabled: false
+    lazy-loading-enabled: true
     log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
+    map-underscore-to-camel-case: true
 
 mapper:
   mappers:
