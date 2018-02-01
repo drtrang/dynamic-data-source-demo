@@ -91,7 +91,7 @@ mybatis:
 
 mapper:
   mappers:
-    - com.github.trang.dynamic.util.BaseMapper
+    - com.github.trang.dynamic.base.mapper.BaseMapper
   identity: MYSQL
   not-empty: true
   use-simple-type: false

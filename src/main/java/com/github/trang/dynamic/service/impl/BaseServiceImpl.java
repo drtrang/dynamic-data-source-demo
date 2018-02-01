@@ -3,9 +3,9 @@ package com.github.trang.dynamic.service.impl;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.github.trang.dynamic.base.BaseModel;
+import com.github.trang.dynamic.base.model.BaseModel;
 import com.github.trang.dynamic.service.BaseService;
-import com.github.trang.dynamic.util.BaseMapper;
+import com.github.trang.dynamic.base.mapper.BaseMapper;
 import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Iterables;
@@ -148,11 +148,11 @@ public abstract class BaseServiceImpl<T extends BaseModel<PK>, PK extends Serial
         return mapper.selectOne(param);
     }
 
-//    @Override
-//    public T selectOneByExample(Example example) {
-//        Preconditions.checkNotNull(example);
-//        return mapper.selectOneByExample(example);
-//    }
+    @Override
+    public T selectOneByExample(Example example) {
+        Preconditions.checkNotNull(example);
+        return mapper.selectOneByExample(example);
+    }
 
     @Override
     public T selectLimitOne(T param) {

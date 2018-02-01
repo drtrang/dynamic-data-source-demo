@@ -1,4 +1,4 @@
-package com.github.trang.dynamic.base;
+package com.github.trang.dynamic.base.model;
 
 import com.google.common.base.MoreObjects;
 import lombok.Getter;

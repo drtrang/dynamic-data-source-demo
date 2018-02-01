@@ -1,7 +1,7 @@
 package com.github.trang.dynamic.service;
 
 import com.github.pagehelper.PageInfo;
-import com.github.trang.dynamic.base.BaseModel;
+import com.github.trang.dynamic.base.model.BaseModel;
 import tk.mybatis.mapper.entity.Example;
 
 import java.io.Serializable;
@@ -312,9 +312,8 @@ public interface BaseService<T extends BaseModel<PK>, PK extends Serializable> {
      *
      * @param example 查询条件
      * @return T 实体
-     *
-     * T selectOneByExample(Example example);
      */
+    T selectOneByExample(Example example);
 
     /**
      * 根据 Example 条件查询单条数据
