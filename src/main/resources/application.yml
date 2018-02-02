@@ -46,8 +46,8 @@ spring:
       test-on-return: false
       stat:
         log-slow-sql: true
-        slow-sql-millis: 3000
-        merge-sql: true
+        slow-sql-millis: 1000
+        merge-sql: false
       slf4j:
         enabled: true
         data-source-log-enabled: true
@@ -79,6 +79,8 @@ spring:
       preferred-json-mapper: jackson
   jackson:
     default-property-inclusion: non_null
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
     serialization:
       indent_output: true
       write_null_map_values: true
