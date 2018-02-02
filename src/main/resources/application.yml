@@ -26,6 +26,7 @@ spring:
     ansi:
       enabled: detect
   datasource:
+    schema: classpath:sql/dynamic_init.sql
     druid:
       data-sources:
         master:
@@ -122,7 +123,7 @@ pagehelper:
 spring:
   profiles: h2
   datasource:
-#    schema: classpath:/sql/dynamic_init_h2.sql
+    schema: classpath:sql/dynamic_init.sql
     druid:
       data-sources:
         master:
@@ -134,6 +135,5 @@ spring:
   h2:
     console:
       enabled: true
-      path: /console
       settings:
         trace: true

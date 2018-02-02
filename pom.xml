@@ -57,7 +57,7 @@
         <copiers.version>1.1.1</copiers.version>
         <spring-boot-autoconfigure.version>1.0.4</spring-boot-autoconfigure.version>
         <mybatis-generator-extension.version>0.0.5-SNAPSHOT</mybatis-generator-extension.version>
-        <druid-spring-boot-starter.version>1.1.5</druid-spring-boot-starter.version>
+        <druid-spring-boot-starter.version>1.1.6-SNAPSHOT</druid-spring-boot-starter.version>
     </properties>
 
     <dependencies>
