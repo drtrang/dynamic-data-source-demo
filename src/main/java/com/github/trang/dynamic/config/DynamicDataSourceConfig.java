@@ -5,14 +5,10 @@ import com.github.trang.dynamic.dynamic.DynamicDataSource;
 import com.github.trang.dynamic.plugin.DynamicDataSourceTransactionManager;
 import lombok.extern.slf4j.Slf4j;
 import org.mybatis.spring.annotation.MapperScan;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.transaction.PlatformTransactionManagerCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.springframework.transaction.annotation.TransactionManagementConfigurer;
 
 import javax.sql.DataSource;
 import java.util.List;
@@ -27,6 +23,7 @@ import static java.util.stream.Collectors.toMap;
  * @author trang
  */
 @Configuration
+@MapperScan("com.github.trang.dynamic.mapper")
 @Slf4j
 public class DynamicDataSourceConfig {
 

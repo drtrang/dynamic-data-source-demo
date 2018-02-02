@@ -1,7 +1,6 @@
 package com.github.trang.dynamic;
 
 import lombok.extern.slf4j.Slf4j;
-import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
  * @author trang
  */
 @SpringBootApplication
-@MapperScan("com.github.trang.dynamic.mapper")
 @Slf4j
 public class Application implements CommandLineRunner {
 
