@@ -4,8 +4,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 
 import javax.sql.DataSource;
-import java.util.HashMap;
 import java.util.Map;
+
+import static com.google.common.collect.Maps.newHashMap;
 
 /**
  * 动态数据源
@@ -34,7 +35,7 @@ public class DynamicDataSource extends AbstractRoutingDataSource {
     @Override
     public void afterPropertiesSet() {
         super.setDefaultTargetDataSource(defaultTargetDataSource);
-        super.setTargetDataSources(new HashMap<>(targetDataSources));
+        super.setTargetDataSources(newHashMap(targetDataSources));
         super.afterPropertiesSet();
     }
 

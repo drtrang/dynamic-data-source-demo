@@ -9,16 +9,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
+ * SpringBoot 启动类
  *
  * @author trang
  */
 @SpringBootApplication
+@MapperScan("com.github.trang.dynamic.mapper")
 @Slf4j
-public class DynamicDataSourceDemoApplication implements CommandLineRunner {
+public class Application implements CommandLineRunner {
 
     public static void main(String[] args) {
         System.setProperty("druid.logType", "slf4j");
-        SpringApplication.run(DynamicDataSourceDemoApplication.class, args);
+        SpringApplication.run(Application.class, args);
     }
 
     @Override

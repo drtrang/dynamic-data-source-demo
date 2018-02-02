@@ -6,6 +6,7 @@ import com.github.trang.dynamic.plugin.DynamicDataSourceTransactionManager;
 import lombok.extern.slf4j.Slf4j;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.transaction.PlatformTransactionManagerCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -26,16 +27,11 @@ import static java.util.stream.Collectors.toMap;
  * @author trang
  */
 @Configuration
-@MapperScan("com.github.trang.dynamic.mapper")
-@EnableTransactionManagement(proxyTargetClass = true)
 @Slf4j
-public class DynamicDataSourceConfig implements TransactionManagementConfigurer {
+public class DynamicDataSourceConfig {
 
     public static final String MASTER = "master";
     public static final String SLAVE = "slave";
-
-    @Autowired
-    private DynamicDataSource dataSource;
 
     /**
      * 动态数据源
@@ -55,8 +51,7 @@ public class DynamicDataSourceConfig implements TransactionManagementConfigurer 
     }
 
     @Bean
-    @Override
-    public PlatformTransactionManager annotationDrivenTransactionManager() {
+    public PlatformTransactionManager annotationDrivenTransactionManager(DynamicDataSource dataSource) {
         log.info("------ 初始化 DynamicDataSourceTransactionManager ------");
         return new DynamicDataSourceTransactionManager(dataSource);
     }

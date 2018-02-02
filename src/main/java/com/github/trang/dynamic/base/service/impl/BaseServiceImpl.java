@@ -1,11 +1,11 @@
-package com.github.trang.dynamic.service.impl;
+package com.github.trang.dynamic.base.service.impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.github.trang.dynamic.base.model.BaseModel;
-import com.github.trang.dynamic.service.BaseService;
 import com.github.trang.dynamic.base.mapper.BaseMapper;
+import com.github.trang.dynamic.base.model.BaseModel;
+import com.github.trang.dynamic.base.service.BaseService;
 import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Iterables;
@@ -29,63 +29,63 @@ public abstract class BaseServiceImpl<T extends BaseModel<PK>, PK extends Serial
     private BaseMapper<T> mapper;
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Throwable.class)
     public int insert(T record) {
         Preconditions.checkNotNull(record);
         return mapper.insert(record);
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Throwable.class)
     public int insertSelective(T record) {
         Preconditions.checkNotNull(record);
         return mapper.insertSelective(record);
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Throwable.class)
     public int insertList(Iterable<T> records) {
         Preconditions.checkArgument(records != null && !Iterables.isEmpty(records));
         return mapper.insertList(Lists.newArrayList(records));
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Throwable.class)
     public int update(T record) {
         Preconditions.checkArgument(record != null && record.getPk() != null);
         return mapper.updateByPrimaryKeySelective(record);
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Throwable.class)
     public int updateByExample(T record, Example example) {
         Preconditions.checkArgument(record != null && record.getPk() != null);
         return mapper.updateByExampleSelective(record, example);
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Throwable.class)
     public int updateUnchecked(T record) {
         Preconditions.checkArgument(record != null && record.getPk() != null);
         return mapper.updateByPrimaryKey(record);
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Throwable.class)
     public int updateUncheckedByExample(T record, Example example) {
         Preconditions.checkArgument(record != null && record.getPk() != null);
         return mapper.updateByExample(record, example);
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Throwable.class)
     public int deleteByPk(PK pk) {
         Preconditions.checkNotNull(pk);
         return mapper.deleteByPrimaryKey(pk);
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Throwable.class)
     public int deleteByPks(Iterable<? extends PK> pks) {
         Preconditions.checkArgument(pks != null && !Iterables.isEmpty(pks));
         String pksStr = Joiner.on(',').skipNulls().join(pks);
@@ -93,20 +93,20 @@ public abstract class BaseServiceImpl<T extends BaseModel<PK>, PK extends Serial
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Throwable.class)
     public int delete(T param) {
         Preconditions.checkNotNull(param);
         return mapper.delete(param);
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Throwable.class)
     public int deleteAll() {
         return mapper.delete(null);
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Throwable.class)
     public int deleteByExample(Example example) {
         Preconditions.checkNotNull(example);
         return mapper.deleteByExample(example);

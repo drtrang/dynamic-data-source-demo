@@ -1,4 +1,4 @@
-package com.github.trang.dynamic;
+package com.github.trang.dynamic.test;
 
 import com.github.trang.dynamic.domain.model.BaseCode;
 import com.github.trang.dynamic.domain.model.BaseCode.BaseCodeBuilder;

@@ -41,7 +41,7 @@ public abstract class BaseModel<PK extends Serializable> {
     private String order;
 
     /**
-     * 排序方式，包括 sortBy 和 order
+     * 排序条件，包含字段和排序方式，会直接拼接到 sql 中，例：column_a, column_b desc
      */
     @Transient
     private String orderByClause;
@@ -66,6 +66,7 @@ public abstract class BaseModel<PK extends Serializable> {
                 .add("pageSize", pageSize)
                 .add("sortBy", sortBy)
                 .add("order", order)
+                .add("orderByClause", orderByClause)
                 .add("fields", fields)
                 .toString();
         return "BaseModel{}".equals(s) ? null : s;

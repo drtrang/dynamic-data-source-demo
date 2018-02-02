@@ -11,28 +11,29 @@ logging:
     com.alibaba.druid: debug
     com.github.trang: debug
 
-debug: false
+debug: true
 
 spring:
   application:
     name: dynamic-datasource-demo
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
   output:
     ansi:
       enabled: detect
-  autoconfigure:
-    exclude:
-      - org.springframework.boot.autoconfigure.cache.CacheAutoConfiguration
-      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
   datasource:
     druid:
-      master:
-        name: master
-        url: jdbc:mysql://10.33.106.239:3306/dynamic_master?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false
-      slave:
-        name: slave
-        url: jdbc:mysql://10.33.106.239:3306/dynamic_slave?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false
+      data-sources:
+        master:
+          name: master
+          url: jdbc:mysql://10.33.106.239:3306/dynamic_master?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false
+        slave:
+          name: slave
+          url: jdbc:mysql://10.33.106.239:3306/dynamic_slave?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false
       username: root
       password: 123456
+#      url: jdbc:mysql://10.33.106.239:3306/dynamic_master?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false
       initialSize: 1
       minIdle: 1
       maxActive: 10

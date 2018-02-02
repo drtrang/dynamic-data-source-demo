@@ -17,7 +17,7 @@
 
     <sql id="BaseColumns">
         <!-- WARNING - @mbg.generated -->
-        id, code_type, parent_code, code, code_value, code_sort, office_address, remark, create_time,
-        update_time
+        id, code_type, parent_code, code, code_value, code_sort, office_address, remark, create_time, update_time
     </sql>
+
 </mapper>

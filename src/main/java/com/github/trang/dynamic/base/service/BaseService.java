@@ -1,4 +1,4 @@
-package com.github.trang.dynamic.service;
+package com.github.trang.dynamic.base.service;
 
 import com.github.pagehelper.PageInfo;
 import com.github.trang.dynamic.base.model.BaseModel;
