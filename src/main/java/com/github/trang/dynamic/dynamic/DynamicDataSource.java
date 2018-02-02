@@ -28,7 +28,7 @@ public class DynamicDataSource extends AbstractRoutingDataSource {
     protected Object determineCurrentLookupKey() {
         // 使用 DynamicDataSourceHolder 保证线程安全
         String dataSource = DynamicDataSourceHolder.get();
-        log.info("当前数据库: {}", dataSource);
+        log.info(">>>>>> 当前数据库: {} <<<<<<", dataSource);
         return dataSource;
     }
 

@@ -11,11 +11,14 @@ logging:
     com.alibaba.druid: debug
     com.github.trang: debug
 
-debug: true
+debug: false
 
 spring:
   application:
     name: dynamic-datasource-demo
+  profiles:
+    active: default
+#    active: h2
   autoconfigure:
     exclude:
       - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
@@ -74,8 +77,16 @@ spring:
     converters:
       preferred-json-mapper: jackson
   jackson:
+    default-property-inclusion: non_null
     serialization:
       indent_output: true
+      write_null_map_values: true
+      write_dates_as_timestamps: false
+    deserialization:
+      fail_on_unknown_properties: false
+    parser:
+      allow_unquoted_control_chars: true
+      allow_single_quotes: true
   mvc:
     servlet:
       load-on-startup: 1
@@ -105,3 +116,24 @@ pagehelper:
   reasonable: false
   support-methods-arguments: false
   auto-runtime-dialect: false
+
+---
+
+spring:
+  profiles: h2
+  datasource:
+#    schema: classpath:/sql/dynamic_init_h2.sql
+    druid:
+      data-sources:
+        master:
+          name: master
+          url: jdbc:h2:mem:dynamic_master
+        slave:
+          name: slave
+          url: jdbc:h2:mem:dynamic_slave
+  h2:
+    console:
+      enabled: true
+      path: /console
+      settings:
+        trace: true

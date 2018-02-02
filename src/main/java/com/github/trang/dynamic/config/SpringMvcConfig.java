@@ -62,7 +62,9 @@ public class SpringMvcConfig {
              */
             @Override
             public void addViewControllers(ViewControllerRegistry registry) {
-                registry.addRedirectViewController("/", "/base-code/list");
+                registry.addRedirectViewController("/", "/base-code/types");
+                registry.addRedirectViewController("/base-code/datas", "/base-code/datas/master");
+                registry.addRedirectViewController("/base-code/datas/", "/base-code/datas/master");
             }
 
             /**

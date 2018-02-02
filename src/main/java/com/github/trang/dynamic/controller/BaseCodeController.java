@@ -35,9 +35,22 @@ public class BaseCodeController {
     @Autowired
     private BaseCodeService baseCodeService;
 
-    @GetMapping("/list")
-    public Message<List<BaseCode>> list() {
+    @GetMapping("/types")
+    public Message<List<BaseCode>> types() {
         List<BaseCode> baseCodes = StreamEx.of(EnumBaseCode.values()).map(COPIER::copy).toList();
+        return Message.ok(baseCodes);
+    }
+
+    @GetMapping("/datas/master")
+    public Message<List<BaseCode>> masterDatas() {
+        DynamicDataSourceHolder.routeMaster();
+        List<BaseCode> baseCodes = baseCodeService.selectAll();
+        return Message.ok(baseCodes);
+    }
+
+    @GetMapping("/datas/slave")
+    public Message<List<BaseCode>> slaveDatas() {
+        List<BaseCode> baseCodes = baseCodeService.selectAll();
         return Message.ok(baseCodes);
     }
 
@@ -63,22 +76,22 @@ public class BaseCodeController {
     }
 
     /**
-     * 有事务，默认 realOnly=false，走主库
+     * 有事务，指定 realOnly=true，走从库
      */
-    @GetMapping("/get/transaction/master/{code}/{officeAddress}")
-    @Transactional(rollbackFor = Throwable.class)
-    public Message<List<BaseCode>> listTransactionMaster(@PathVariable String code, @PathVariable Integer officeAddress) {
+    @GetMapping("/get/transaction/slave/{code}/{officeAddress}")
+    @Transactional(readOnly = true, rollbackFor = Throwable.class)
+    public Message<List<BaseCode>> listTransactionSlave(@PathVariable String code, @PathVariable Integer officeAddress) {
         EnumBaseCode type = EnumBaseCode.getByCode(code);
         List<BaseCode> baseCodes = baseCodeService.getListByCity(type, officeAddress);
         return Message.ok(baseCodes);
     }
 
     /**
-     * 有事务，指定 realOnly=true，走从库
+     * 有事务，默认 realOnly=false，走主库
      */
-    @GetMapping("/get/transaction/slave/{code}/{officeAddress}")
-    @Transactional(readOnly = true, rollbackFor = Throwable.class)
-    public Message<List<BaseCode>> listTransactionSlave(@PathVariable String code, @PathVariable Integer officeAddress) {
+    @GetMapping("/get/transaction/master/{code}/{officeAddress}")
+    @Transactional(rollbackFor = Throwable.class)
+    public Message<List<BaseCode>> listTransactionMaster(@PathVariable String code, @PathVariable Integer officeAddress) {
         EnumBaseCode type = EnumBaseCode.getByCode(code);
         List<BaseCode> baseCodes = baseCodeService.getListByCity(type, officeAddress);
         return Message.ok(baseCodes);
