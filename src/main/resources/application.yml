@@ -18,7 +18,7 @@ spring:
     name: dynamic-datasource-demo
   profiles:
     active: default
-#    active: h2
+#    active: mysql
   autoconfigure:
     exclude:
       - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
@@ -30,11 +30,9 @@ spring:
     druid:
       data-sources:
         master:
-          name: master
-          url: jdbc:mysql://10.33.106.239:3306/dynamic_master?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false
+          url: jdbc:h2:mem:master
         slave:
-          name: slave
-          url: jdbc:mysql://10.33.106.239:3306/dynamic_slave?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false
+          url: jdbc:h2:mem:slave
       username: root
       password: 123456
       initialSize: 1
@@ -65,6 +63,11 @@ spring:
         statement-executable-sql-log-enable: true
         result-set-log-enabled: false
         result-set-log-error-enabled: true
+  h2:
+    console:
+      enabled: true
+      settings:
+        trace: true
   transaction:
     rollback-on-commit-failure: true
   aop:
@@ -123,19 +126,15 @@ pagehelper:
 ---
 
 spring:
-  profiles: h2
+  profiles: mysql
   datasource:
     schema: classpath:sql/dynamic_init.sql
     druid:
       data-sources:
         master:
-          name: master
-          url: jdbc:h2:mem:dynamic_master
+          url: jdbc:mysql://10.33.106.239:3306/dynamic_master?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false
         slave:
-          name: slave
-          url: jdbc:h2:mem:dynamic_slave
+          url: jdbc:mysql://10.33.106.239:3306/dynamic_slave?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false
   h2:
     console:
-      enabled: true
-      settings:
-        trace: true
+      enabled: false
