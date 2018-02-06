@@ -15,14 +15,14 @@ public class DynamicTest extends SpringBootBaseTest {
     @Test
     public void test() {
         BaseCodeBuilder builder = BaseCode.builder();
-        baseCodeService.update(builder.id(1L).parentCode("T").build());
+        baseCodeService.updateSelectiveByPk(builder.id(1L).parentCode("T").build());
     }
 
     @Test
     @Transactional
     public void test2() {
         BaseCodeBuilder builder = BaseCode.builder();
-        baseCodeService.update(builder.id(1L).parentCode("T").build());
+        baseCodeService.updateSelectiveByPk(builder.id(1L).parentCode("T").build());
     }
 
 }

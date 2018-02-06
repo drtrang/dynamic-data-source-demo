@@ -63,23 +63,6 @@ public interface BaseService<T extends BaseModel<PK>, PK extends Serializable> {
      */
     int insertList(Iterable<T> records);
 
-    /**
-     * 批量新增数据，值为 null 的字段也会保存
-     *
-     * 注意：
-     *   1.支持回写主键的数据库可以从 records 中获取返回的主键（MySQL 支持多主键回写）
-     *
-     * SQL 示例:
-     *   INSERT INTO sh_housedel_log(log_type,business_id,operate_type,operator_ucid,operator_name,
-     *   operator_ip,operation_reason,created_time,brand,log_content) VALUES
-     *   (?,?,?,?,?,?,?,?,?,?), (?,?,?,?,?,?,?,?,?,?)
-     *
-     * @param records 待保存的数据集合
-     * @return int 影响行数
-     *
-     * int insertListSelective(Iterable<T> records);
-     */
-
     // ------ U ------ //
 
     /**
@@ -94,7 +77,7 @@ public interface BaseService<T extends BaseModel<PK>, PK extends Serializable> {
      * @param record 待更新的数据
      * @return int 影响行数
      */
-    int update(T record);
+    int updateSelectiveByPk(T record);
 
     /**
      * 根据主键更新数据，值为 null 的字段会更新为 null
@@ -110,7 +93,7 @@ public interface BaseService<T extends BaseModel<PK>, PK extends Serializable> {
      * @param record 待更新的数据
      * @return int 影响行数
      */
-    int updateUnchecked(T record);
+    int updateByPk(T record);
 
     /**
      * 根据 Example 条件更新数据，值为 null 的字段不会更新
@@ -122,7 +105,7 @@ public interface BaseService<T extends BaseModel<PK>, PK extends Serializable> {
      * @param example 更新条件
      * @return int 影响行数
      */
-    int updateByExample(T record, Example example);
+    int updateSelectiveByExample(T record, Example example);
 
     /**
      * 根据 Example 条件更新数据，值为 null 的字段会更新为 null
@@ -136,7 +119,7 @@ public interface BaseService<T extends BaseModel<PK>, PK extends Serializable> {
      * @param example 更新条件
      * @return int 影响行数
      */
-    int updateUncheckedByExample(T record, Example example);
+    int updateByExample(T record, Example example);
 
     // ------ D ------ //
 
@@ -176,16 +159,6 @@ public interface BaseService<T extends BaseModel<PK>, PK extends Serializable> {
      * @return int 影响行数
      */
     int delete(T param);
-
-    /**
-     * 删除全部数据
-     *
-     * SQL 示例:
-     *   DELETE FROM sh_housedel_log
-     *
-     * @return int 影响行数
-     */
-    int deleteAll();
 
     /**
      * 根据 Example 条件删除数据

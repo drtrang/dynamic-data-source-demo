@@ -6,11 +6,11 @@
     <parent>
         <groupId>com.github.drtrang</groupId>
         <artifactId>parent</artifactId>
-        <version>1.0.8-SNAPSHOT</version>
+        <version>1.1.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>dynamic-data-source-demo</artifactId>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>1.1.0</version>
 
     <name>dynamic-data-source-demo</name>
     <description>Dynamic Data Source Demo</description>
@@ -55,9 +55,9 @@
         <start-class>com.github.trang.dynamic.Application</start-class>
         <!-- 三方库依赖 -->
         <copiers.version>1.1.1</copiers.version>
-        <spring-boot-autoconfigure.version>1.0.4</spring-boot-autoconfigure.version>
+        <spring-boot-autoconfigure.version>1.1.0-SNAPSHOT</spring-boot-autoconfigure.version>
         <mybatis-generator-extension.version>0.0.5-SNAPSHOT</mybatis-generator-extension.version>
-        <druid-spring-boot-starter.version>1.1.6-SNAPSHOT</druid-spring-boot-starter.version>
+        <druid-spring-boot-starter.version>1.1.7-SNAPSHOT</druid-spring-boot-starter.version>
     </properties>
 
     <dependencies>
@@ -98,16 +98,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-aop</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.mybatis.spring.boot</groupId>
-            <artifactId>mybatis-spring-boot-starter</artifactId>
-            <exclusions>
-                <exclusion>
-                    <artifactId>tomcat-jdbc</artifactId>
-                    <groupId>org.apache.tomcat</groupId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>tk.mybatis</groupId>
@@ -184,36 +174,6 @@
             <plugin>
                 <groupId>org.mybatis.generator</groupId>
                 <artifactId>mybatis-generator-maven-plugin</artifactId>
-                <version>${mybatis-generator.version}</version>
-                <configuration>
-                    <configurationFile>
-                        ${basedir}/src/main/resources/generator/generatorConfig.xml
-                    </configurationFile>
-                    <overwrite>true</overwrite>
-                    <verbose>true</verbose>
-                </configuration>
-                <dependencies>
-                    <dependency>
-                        <groupId>mysql</groupId>
-                        <artifactId>mysql-connector-java</artifactId>
-                        <version>${mysql.version}</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>tk.mybatis</groupId>
-                        <artifactId>mapper</artifactId>
-                        <version>${mapper.version}</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>com.github.drtrang</groupId>
-                        <artifactId>mybatis-generator-extension</artifactId>
-                        <version>${mybatis-generator-extension.version}</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.freemarker</groupId>
-                        <artifactId>freemarker</artifactId>
-                        <version>${freemarker.version}</version>
-                    </dependency>
-                </dependencies>
             </plugin>
         </plugins>
     </build>

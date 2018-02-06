@@ -9,7 +9,6 @@ import com.github.trang.dynamic.base.service.BaseService;
 import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +16,8 @@ import tk.mybatis.mapper.entity.Example;
 
 import java.io.Serializable;
 import java.util.List;
+
+import static com.google.common.collect.Lists.newArrayList;
 
 /**
  * BaseService 实现类
@@ -46,34 +47,34 @@ public abstract class BaseServiceImpl<T extends BaseModel<PK>, PK extends Serial
     @Transactional(rollbackFor = Throwable.class)
     public int insertList(Iterable<T> records) {
         Preconditions.checkArgument(records != null && !Iterables.isEmpty(records));
-        return mapper.insertList(Lists.newArrayList(records));
+        return mapper.insertList(newArrayList(records));
     }
 
     @Override
     @Transactional(rollbackFor = Throwable.class)
-    public int update(T record) {
+    public int updateSelectiveByPk(T record) {
         Preconditions.checkArgument(record != null && record.getPk() != null);
         return mapper.updateByPrimaryKeySelective(record);
     }
 
     @Override
     @Transactional(rollbackFor = Throwable.class)
-    public int updateByExample(T record, Example example) {
-        Preconditions.checkArgument(record != null && record.getPk() != null);
-        return mapper.updateByExampleSelective(record, example);
-    }
-
-    @Override
-    @Transactional(rollbackFor = Throwable.class)
-    public int updateUnchecked(T record) {
+    public int updateByPk(T record) {
         Preconditions.checkArgument(record != null && record.getPk() != null);
         return mapper.updateByPrimaryKey(record);
     }
 
     @Override
     @Transactional(rollbackFor = Throwable.class)
-    public int updateUncheckedByExample(T record, Example example) {
-        Preconditions.checkArgument(record != null && record.getPk() != null);
+    public int updateSelectiveByExample(T record, Example example) {
+        Preconditions.checkArgument(record != null && example != null);
+        return mapper.updateByExampleSelective(record, example);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Throwable.class)
+    public int updateByExample(T record, Example example) {
+        Preconditions.checkArgument(record != null && example != null);
         return mapper.updateByExample(record, example);
     }
 
@@ -97,12 +98,6 @@ public abstract class BaseServiceImpl<T extends BaseModel<PK>, PK extends Serial
     public int delete(T param) {
         Preconditions.checkNotNull(param);
         return mapper.delete(param);
-    }
-
-    @Override
-    @Transactional(rollbackFor = Throwable.class)
-    public int deleteAll() {
-        return mapper.delete(null);
     }
 
     @Override
@@ -133,7 +128,7 @@ public abstract class BaseServiceImpl<T extends BaseModel<PK>, PK extends Serial
 
     @Override
     public List<T> selectAll() {
-        return mapper.select(null);
+        return mapper.selectAll();
     }
 
     @Override
