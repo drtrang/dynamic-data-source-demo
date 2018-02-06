@@ -3,11 +3,11 @@ package com.github.trang.dynamic.config;
 import com.github.trang.dynamic.dynamic.DynamicDataSource;
 import com.github.trang.dynamic.plugin.DynamicDataSourceTransactionManager;
 import lombok.extern.slf4j.Slf4j;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.transaction.PlatformTransactionManager;
-import tk.mybatis.spring.annotation.MapperScan;
 
 import javax.sql.DataSource;
 import java.util.Map;

@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.github.drtrang</groupId>
         <artifactId>parent</artifactId>
-        <version>1.1.0-SNAPSHOT</version>
+        <version>1.1.0</version>
     </parent>
 
     <artifactId>dynamic-data-source-demo</artifactId>
@@ -98,6 +98,16 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.mybatis.spring.boot</groupId>
+            <artifactId>mybatis-spring-boot-starter</artifactId>
+            <exclusions>
+                <exclusion>
+                    <artifactId>tomcat-jdbc</artifactId>
+                    <groupId>org.apache.tomcat</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>tk.mybatis</groupId>
