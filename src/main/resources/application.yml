@@ -1,15 +1,5 @@
 server:
   port: 9300
-  display-name: DynamicDataSourceDemo
-
-logging:
-  level:
-    root: info
-    org.mybatis: debug
-    org.springframework: info
-    org.springframework.jdbc: debug
-    com.alibaba.druid: debug
-    com.github.trang: debug
 
 debug: false
 
@@ -45,7 +35,6 @@ spring:
       stat:
         log-slow-sql: true
         slow-sql-millis: 1000
-        merge-sql: false
       slf4j:
         enabled: true
         data-source-log-enabled: true
