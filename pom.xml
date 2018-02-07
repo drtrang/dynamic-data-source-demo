@@ -39,7 +39,7 @@
     <scm>
         <connection>scm:git:https://github.com/drtrang/dynamic-data-source-demo.git</connection>
         <developerConnection>scm:git:git@github.com:drtrang/dynamic-data-source-demo.git</developerConnection>
-        <url>https://github.com/drtrang/dynamic-data-source-demo.git</url>
+        <url>https://github.com/drtrang/dynamic-data-source-demo</url>
     </scm>
 
     <issueManagement>
@@ -55,9 +55,9 @@
         <start-class>com.github.trang.dynamic.Application</start-class>
         <!-- 三方库依赖 -->
         <copiers.version>1.1.1</copiers.version>
-        <spring-boot-autoconfigure.version>1.1.0-SNAPSHOT</spring-boot-autoconfigure.version>
+        <spring-boot-autoconfigure.version>1.1.0</spring-boot-autoconfigure.version>
         <mybatis-generator-extension.version>0.0.5-SNAPSHOT</mybatis-generator-extension.version>
-        <druid-spring-boot-starter.version>1.1.7-SNAPSHOT</druid-spring-boot-starter.version>
+        <druid-spring-boot-starter.version>1.1.7</druid-spring-boot-starter.version>
     </properties>
 
     <dependencies>
@@ -136,7 +136,6 @@
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>one.util</groupId>
